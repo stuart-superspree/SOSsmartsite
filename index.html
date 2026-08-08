@@ -1,0 +1,2723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#00205C">
+<meta name="description" content="S.O.S. ConnectLoop — tap-to-access hire, asset, safety and site information for your Storage on Site unit.">
+<title>ConnectLoop | Storage on Site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ConnectLoop">
+<meta property="og:title" content="ConnectLoop | Storage on Site">
+<meta property="og:description" content="Tap-to-access hire, asset, safety and site information for your Storage on Site unit.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /*
+   ═══════════════════════════════════════════
+   SOS BRAND PALETTE — extracted from storageonsite.co.uk
+   Primary:  Deep Navy    #00245D  (header background / logo background)
+   Brand:    Royal Blue   #0041A8  (body / CTAs / links)
+   Mid:      Mid Blue     #1A5CB8  (gradients / cards)
+   Accent:   SOS Yellow   #F5C800  (CTA buttons / highlights / logo mark)
+   Yellow2:  Gold         #E8B800  (hover / darker yellow)
+   Text on blue: white
+   Body bg:  #F0F4FA (cool light blue-grey)
+   ═══════════════════════════════════════════
+  */
+  :root {
+    --sos-navy:     #00205C;
+    --sos-blue:     #0042BF;
+    --sos-mid:      #2A62CC;
+    --sos-light-bg: #E8F0FC;
+    --sos-pale:     #C9D9F4;
+    --sos-yellow:   #FFCB05;
+    --sos-gold:     #E5B400;
+    --sos-yellow-lt:#FFFBE6;
+
+    --green:        #15803D;
+    --green-light:  #DCFCE7;
+    --warn:         #B45309;
+    --warn-light:   #FEF3C7;
+    --red:          #B91C1C;
+    --red-light:    #FEE2E2;
+
+    --white:        #FFFFFF;
+    --text-dark:    #0A1628;
+    --text-mid:     #3D5282;
+    --text-light:   #7A93C4;
+    --bg:           #F0F4FA;
+    --border:       #D6E0F0;
+
+    --shadow-sm:  0 1px 3px rgba(0,36,93,0.10), 0 1px 2px rgba(0,36,93,0.06);
+    --shadow-md:  0 4px 16px rgba(0,36,93,0.12), 0 2px 6px rgba(0,36,93,0.06);
+    --shadow-lg:  0 10px 40px rgba(0,36,93,0.18);
+    --cx: 16px;
+    --cr: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text-dark);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  /* ── OFFLINE BANNER ── */
+  .offline-banner {
+    display: none; background: #7C0000; color: #fff;
+    font-size: 12px; font-weight: 600; text-align: center;
+    padding: 8px 16px; letter-spacing: 0.3px;
+  }
+  .offline-banner.show { display: block; }
+
+  /* ════════════════════════════════════
+     HEADER — faithful to SOS navy top bar
+  ════════════════════════════════════ */
+  .app-header {
+    background: var(--sos-navy);
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 3px 20px rgba(0,36,93,0.45);
+  }
+
+  /* top utility bar — mimics SOS top bar with phone/links */
+  .header-utility {
+    background: rgba(0,0,0,0.25);
+    padding: 5px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .util-left { display: flex; align-items: center; gap: 6px; }
+  .util-left span { font-size: 10px; color: rgba(255,255,255,0.55); font-weight: 500; }
+  .util-phone { font-size: 10px; color: var(--sos-yellow); font-weight: 700; letter-spacing: 0.3px; }
+  .conn-pill { display: flex; align-items: center; gap: 5px; }
+  .conn-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ADE80; animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+  .conn-pill span { font-size: 10px; color: #86EFAC; font-weight: 600; }
+
+  /* main header row */
+  .header-main {
+    padding: 10px 16px 10px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  /* SOS LOGO — real logo image in circle */
+  .sos-logo {
+    /* v4: real SOS reversed mark, no circle */
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .logo-circle {
+    width: 46px; height: 46px; border-radius: 50%;
+    overflow: hidden; flex-shrink: 0;
+    border: 2px solid var(--sos-yellow);
+    box-shadow: 0 0 0 2px rgba(245,200,0,0.25);
+  }
+
+  .logo-circle img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+
+  .logo-wordmark {
+    display: flex; flex-direction: column;
+  }
+
+  .logo-wordmark .lw-top {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 16px; color: #fff;
+    letter-spacing: 1px; text-transform: uppercase; line-height: 1;
+  }
+
+  .logo-wordmark .lw-top span { color: var(--sos-yellow); }
+
+  .logo-wordmark .lw-sub {
+    font-size: 9px; color: rgba(255,255,255,0.50);
+    font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  .last-ts { font-size: 9px; color: rgba(255,255,255,0.30); }
+
+  /* unit strip — yellow band like SOS CTA strip */
+  .unit-strip {
+    background: var(--sos-yellow);
+    padding: 9px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .unit-strip .unit-id {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 16px; color: var(--sos-navy);
+    letter-spacing: 0.3px; line-height: 1.1;
+  }
+  .unit-strip .unit-meta { font-size: 10px; color: rgba(0,36,93,0.65); font-weight: 600; margin-top: 2px; }
+  .unit-strip .scan-col { text-align: right; }
+
+  /* NFC badge */
+  .nfc-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--sos-navy); border-radius: 20px;
+    padding: 3px 9px;
+  }
+  .nfc-ring { width: 8px; height: 8px; border-radius: 50%; border: 2px solid var(--sos-yellow); animation: nfc-pulse 1.6s infinite; }
+  @keyframes nfc-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.25)} }
+  .nfc-badge span { font-size: 9px; color: var(--sos-yellow); font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; }
+  .scan-time { font-size: 10px; color: rgba(0,36,93,0.55); font-weight: 600; margin-top: 3px; }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex; background: var(--white);
+    border-bottom: 3px solid var(--sos-yellow);
+    position: sticky; top: var(--hdr-h, 118px); z-index: 90;
+    box-shadow: 0 2px 10px rgba(0,36,93,0.10);
+  }
+  .nav-tab {
+    flex: 1; padding: 10px 2px 8px; border: none; background: none;
+    font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+    color: var(--text-light); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    text-transform: uppercase; letter-spacing: 0.3px; position: relative;
+    transition: all 0.18s;
+  }
+  .nav-tab .tab-icon { font-size: 17px; line-height: 1; display: flex; align-items: center; justify-content: center; min-height: 19px; }
+  .nav-tab.active { color: var(--sos-navy); background: #FAFBFF; }
+  .nav-tab.active::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+    height: 3px; background: var(--sos-navy);
+  }
+  .nav-tab .badge {
+    position: absolute; top: 6px; right: calc(50% - 18px);
+    background: var(--red); color: white;
+    font-size: 9px; font-weight: 800; width: 15px; height: 15px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 14px 0 0; animation: fadeIn 0.22s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 900; color: var(--sos-navy);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin: 18px var(--cx) 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 2px;
+    background: linear-gradient(90deg, var(--sos-yellow) 0%, transparent 100%);
+    border-radius: 2px;
+  }
+
+  /* ════════════════════════════════════
+     UNIT HERO — SOS navy + yellow brand
+  ════════════════════════════════════ */
+  .unit-hero {
+    background: linear-gradient(150deg, var(--sos-navy) 0%, var(--sos-blue) 100%);
+    border-radius: var(--cr); margin: 14px var(--cx);
+    position: relative; overflow: hidden;
+  }
+
+  /* yellow accent bar top */
+  .unit-hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 4px; background: var(--sos-yellow);
+  }
+
+  /* decorative circles */
+  .unit-hero::after {
+    content: ''; position: absolute; bottom: -40px; right: -40px;
+    width: 130px; height: 130px; border-radius: 50%;
+    background: rgba(245,200,0,0.07);
+  }
+
+  .hero-inner { padding: 18px var(--cx) 18px; position: relative; z-index: 1; }
+
+  .hero-label { font-size: 10px; font-weight: 800; color: var(--sos-yellow); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+
+  .hero-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+
+  .hero-pill {
+    background: var(--sos-yellow); color: var(--sos-navy);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900; font-size: 12px; padding: 3px 12px;
+    border-radius: 4px; letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  .hero-pill.warn   { background: #F59E0B; color: #fff; }
+  .hero-pill.danger { background: var(--red); color: #fff; }
+
+  .hero-unit-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px; font-weight: 900; color: var(--white);
+    line-height: 1.05; margin-bottom: 16px; letter-spacing: 0.2px;
+  }
+  .hero-unit-name em { color: var(--sos-yellow); font-style: normal; }
+
+  .hero-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hero-meta-box {
+    background: rgba(255,255,255,0.08); border-radius: 8px; padding: 9px 11px;
+    border-left: 3px solid rgba(245,200,0,0.35);
+  }
+  .hm-label { font-size: 9px; color: rgba(255,255,255,0.50); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; font-weight: 700; }
+  .hm-val { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 800; color: var(--white); }
+  .hm-val.yellow { color: var(--sos-yellow); }
+
+  /* ── HIRE COUNTDOWN ── */
+  .hire-countdown {
+    background: var(--white); border-radius: var(--cr);
+    padding: 14px var(--cx); margin: 0 var(--cx) 14px;
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--sos-yellow);
+  }
+  .hc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .hc-label { font-size: 11px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.5px; }
+  .hc-days { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 900; color: var(--sos-blue); line-height: 1; }
+  .hc-days span { font-size: 11px; font-weight: 600; color: var(--text-mid); }
+  .progress-track { height: 10px; background: var(--sos-light-bg); border-radius: 10px; overflow: hidden; margin-bottom: 5px; }
+  .progress-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, var(--sos-navy), var(--sos-blue));
+    width: 0%; transition: width 1.3s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-fill.warn-bar { background: linear-gradient(90deg, #D97706, #F59E0B); }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-light); font-weight: 600; }
+
+  /* ── CHECK ITEMS ── */
+  .checklist { display: flex; flex-direction: column; gap: 8px; margin: 0 var(--cx); }
+  .check-item {
+    background: var(--white); border-radius: var(--cr);
+    padding: 12px 14px; display: flex; gap: 11px;
+    align-items: center; box-shadow: var(--shadow-sm);
+    cursor: pointer; transition: transform 0.12s, box-shadow 0.12s;
+    border-left: 4px solid transparent;
+  }
+  .check-item:active { transform: scale(0.98); }
+  .check-item.ok   { border-left-color: var(--green); }
+  .check-item.warn { border-left-color: #F59E0B; }
+  .check-item.bad  { border-left-color: var(--red); }
+
+  .check-circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; font-weight: 700; }
+  .check-circle.ok   { background: var(--green-light); color: var(--green); }
+  .check-circle.warn { background: var(--warn-light); color: var(--warn); }
+  .check-circle.bad  { background: var(--red-light); color: var(--red); }
+  .check-body { flex: 1; }
+  .check-title { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+  .check-sub { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
+  .check-badge { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0; letter-spacing: 0.4px; }
+  .check-badge.ok   { background: var(--green-light); color: var(--green); }
+  .check-badge.warn { background: var(--warn-light); color: var(--warn); }
+  .check-badge.bad  { background: var(--red-light); color: var(--red); }
+
+  /* ── STAT GRID ── */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 var(--cx) 14px; }
+  .stat-card {
+    background: var(--white); border-radius: var(--cr);
+    padding: 14px; box-shadow: var(--shadow-sm);
+    border-bottom: 3px solid var(--sos-pale);
+  }
+  .stat-card .stat-icon { font-size: 20px; margin-bottom: 5px; }
+  .stat-card .stat-val { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 900; color: var(--sos-blue); line-height: 1; }
+  .stat-card .stat-val.ok   { color: var(--green); }
+  .stat-card .stat-val.warn { color: var(--warn); }
+  .stat-card .stat-val.bad  { color: var(--red); }
+  .stat-card .stat-label { font-size: 11px; color: var(--text-mid); margin-top: 3px; font-weight: 600; }
+
+  /* ── INFO ROW ── */
+  .info-row { background: var(--white); border-radius: var(--cr); overflow: hidden; box-shadow: var(--shadow-sm); margin: 0 var(--cx) 14px; }
+  .info-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 16px; border-bottom: 1px solid var(--border); }
+  .info-item:last-child { border-bottom: none; }
+  .info-item:first-child { background: var(--sos-light-bg); }
+  .info-key { font-size: 12px; color: var(--text-mid); font-weight: 600; }
+  .info-val { font-size: 12px; font-weight: 700; color: var(--text-dark); text-align: right; max-width: 55%; }
+
+  /* ── ACTIONS PANEL ── */
+  .actions-panel { background: var(--white); border-radius: var(--cr); margin: 0 var(--cx) 14px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .actions-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; background: #FFFBEA; border-bottom: 2px solid var(--sos-yellow); }
+  .actions-header-left { display: flex; align-items: center; gap: 8px; }
+  .actions-header h4 { font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase; letter-spacing: 0.3px; }
+  .actions-count { background: #F59E0B; color: white; font-size: 10px; font-weight: 800; width: 19px; height: 19px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .actions-chevron { color: #B45309; font-size: 18px; transition: transform 0.2s; font-weight: 700; }
+  .actions-chevron.open { transform: rotate(90deg); }
+  .actions-body { display: none; }
+  .actions-body.open { display: block; }
+  .action-item { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: flex-start; }
+  .action-item:last-child { border-bottom: none; }
+  .action-badge { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0; margin-top: 2px; background: var(--warn-light); color: var(--warn); letter-spacing: 0.3px; }
+  .action-badge.resolved { background: var(--green-light); color: var(--green); }
+  .action-text { font-size: 13px; color: var(--text-dark); line-height: 1.4; flex: 1; }
+  .action-date { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+  .action-ack { margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--sos-blue); cursor: pointer; text-decoration: underline; background: none; border: none; padding: 0; text-transform: uppercase; letter-spacing: 0.3px; }
+
+  /* ── EMERGENCY / ACTION BUTTONS ── */
+  .btn-emergency {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--red); border-radius: var(--cr);
+    padding: 14px var(--cx); margin: 0 var(--cx) 10px;
+    border: none; width: calc(100% - (var(--cx) * 2)); text-align: left; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-emergency:active { opacity: 0.85; }
+
+  .btn-warning {
+    display: flex; align-items: center; gap: 12px;
+    background: #D97706; border-radius: var(--cr);
+    padding: 14px var(--cx); margin: 0 var(--cx) 10px;
+    border: none; width: calc(100% - (var(--cx) * 2)); text-align: left; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-warning:active { opacity: 0.85; }
+
+  .btn-sos {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--sos-blue); border-radius: var(--cr);
+    padding: 14px var(--cx); margin: 0 var(--cx) 10px;
+    border: none; width: calc(100% - (var(--cx) * 2)); text-align: left; cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-sos:active { opacity: 0.85; }
+
+  .em-icon-box { width: 40px; height: 40px; background: rgba(255,255,255,0.18); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .em-text h4 { font-size: 13px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.3px; }
+  .em-text p { font-size: 11px; color: rgba(255,255,255,0.70); margin-top: 2px; }
+  .em-arrow { margin-left: auto; color: rgba(255,255,255,0.50); font-size: 20px; font-weight: 700; }
+
+  /* ════════════════════════════════════
+     DOCUMENTS TAB
+  ════════════════════════════════════ */
+  .doc-summary {
+    display: flex; gap: 0; background: var(--sos-navy);
+    padding: 10px 16px; align-items: center;
+  }
+  .ds-item { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; }
+  .ds-dot { width: 8px; height: 8px; border-radius: 2px; }
+  .ds-dot.ok   { background: #4ADE80; }
+  .ds-dot.warn { background: var(--sos-yellow); }
+  .ds-dot.exp  { background: #F87171; }
+  .ds-sep { width: 1px; height: 14px; background: rgba(255,255,255,0.20); margin: 0 12px; }
+
+  .doc-search-wrap { position: relative; margin: 12px var(--cx) 0; }
+  .doc-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+  .doc-search {
+    width: 100%; background: var(--white); border: 2px solid var(--border);
+    border-radius: 8px; padding: 10px 12px 10px 35px;
+    font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--text-dark); outline: none;
+  }
+  .doc-search:focus { border-color: var(--sos-blue); }
+
+  .doc-filter-row { display: flex; gap: 6px; overflow-x: auto; padding: 10px var(--cx) 6px; scrollbar-width: none; }
+  .doc-filter-row::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    flex-shrink: 0; font-size: 11px; font-weight: 700; padding: 5px 12px;
+    border-radius: 4px; border: 2px solid var(--border);
+    background: var(--white); color: var(--text-mid); cursor: pointer; transition: all 0.15s;
+    font-family: 'Barlow', sans-serif; text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .filter-chip.active { background: var(--sos-navy); border-color: var(--sos-navy); color: var(--white); }
+
+  .doc-list { padding: 8px var(--cx) 0; display: flex; flex-direction: column; gap: 8px; }
+  .doc-card {
+    background: var(--white); border-radius: var(--cr);
+    padding: 12px 14px; display: flex; align-items: center; gap: 11px;
+    box-shadow: var(--shadow-sm); cursor: pointer; transition: transform 0.12s;
+    border-left: 4px solid var(--sos-blue);
+  }
+  .doc-card:active { transform: scale(0.98); }
+  .doc-card.hidden { display: none; }
+  .doc-card.fire-card { border-left-color: var(--red); }
+  .doc-card.legal-card { border-left-color: var(--sos-yellow); }
+  .doc-card.service-card { border-left-color: var(--green); }
+
+  .doc-icon { width: 38px; height: 38px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .doc-icon.safety  { background: var(--sos-light-bg); }
+  .doc-icon.fire    { background: #FEF2F2; }
+  .doc-icon.inspect { background: #F0FDF4; }
+  .doc-icon.legal   { background: #FFFBE6; }
+  .doc-icon.method  { background: #F5F3FF; }
+  .doc-icon.service { background: #ECFDF5; }
+  .doc-info { flex: 1; }
+  .doc-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+  .doc-meta { font-size: 11px; color: var(--text-mid); margin-top: 2px; }
+  .doc-status { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; flex-shrink: 0; letter-spacing: 0.3px; }
+  .doc-status.valid  { background: var(--green-light); color: var(--green); }
+  .doc-status.review { background: var(--warn-light); color: var(--warn); }
+  .doc-status.exp    { background: var(--red-light); color: var(--red); }
+  .doc-arrow { color: var(--text-light); font-size: 18px; font-weight: 700; }
+
+  /* Skeleton */
+  .doc-skeleton { display: none; padding: 8px var(--cx) 0; flex-direction: column; gap: 8px; }
+  .doc-skeleton.show { display: flex; }
+  .skel-row { background: var(--white); border-radius: var(--cr); padding: 14px; display: flex; gap: 12px; align-items: center; }
+  .skel-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--border); animation: shimmer 1.3s infinite; }
+  .skel-lines { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .skel-line { height: 10px; background: var(--border); border-radius: 4px; animation: shimmer 1.3s infinite; }
+  .skel-line.short { width: 60%; }
+  .skel-line.shorter { width: 35%; }
+  @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  /* ════════════════════════════════════
+     REPORT TAB
+  ════════════════════════════════════ */
+  .report-context {
+    background: var(--sos-navy); border-radius: var(--cr);
+    margin: 14px var(--cx) 12px; padding: 14px 16px;
+    display: flex; gap: 10px; align-items: flex-start;
+    border-left: 4px solid var(--sos-yellow);
+  }
+  .rc-icon { font-size: 20px; flex-shrink: 0; }
+  .rc-title { font-size: 13px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.3px; }
+  .rc-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+  .report-form { margin: 0 var(--cx); display: flex; flex-direction: column; gap: 12px; }
+  .form-label { font-size: 11px; font-weight: 800; color: var(--sos-navy); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 5px; }
+  .form-select, .form-input, .form-textarea {
+    width: 100%; background: var(--white); border: 2px solid var(--border);
+    border-radius: 8px; padding: 11px 14px;
+    font-family: 'Barlow', sans-serif; font-size: 13px; color: var(--text-dark); outline: none; appearance: none;
+  }
+  .form-select:focus, .form-input:focus, .form-textarea:focus { border-color: var(--sos-blue); }
+  .form-textarea { min-height: 80px; resize: none; line-height: 1.5; }
+
+  .severity-row { display: flex; gap: 8px; }
+  .severity-btn {
+    flex: 1; padding: 10px 6px; border-radius: 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 800;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    border: 2px solid var(--border); background: var(--white);
+    color: var(--text-mid); cursor: pointer; transition: all 0.15s;
+  }
+  .severity-btn.active.low    { border-color: var(--green); background: var(--green-light); color: var(--green); }
+  .severity-btn.active.medium { border-color: #D97706; background: var(--warn-light); color: #D97706; }
+  .severity-btn.active.high   { border-color: var(--red); background: var(--red-light); color: var(--red); }
+
+  /* SOS-branded CTA button — navy with yellow text */
+  .btn-primary {
+    width: 100%; background: var(--sos-navy); color: var(--sos-yellow); border: none;
+    border-radius: 8px; padding: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-primary:active { opacity: 0.85; }
+
+  .btn-secondary {
+    width: 100%; background: var(--sos-yellow); color: var(--sos-navy); border: none;
+    border-radius: 8px; padding: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px; font-weight: 900; letter-spacing: 0.8px; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-secondary:active { opacity: 0.85; }
+
+  .riddor-notice { margin: 14px var(--cx) 0; background: var(--red-light); border-radius: var(--cr); padding: 13px 14px; border-left: 4px solid var(--red); }
+  .riddor-notice .rn-label { font-size: 11px; font-weight: 800; color: var(--red); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .riddor-notice .rn-text { font-size: 12px; color: var(--text-dark); line-height: 1.5; }
+
+  .report-confirm { display: none; animation: fadeIn 0.25s ease; }
+  .report-confirm.show { display: block; }
+  .confirm-hero {
+    background: linear-gradient(135deg, var(--green) 0%, #14532D 100%);
+    border-radius: var(--cr); padding: 24px var(--cx);
+    margin: 14px var(--cx) 0; text-align: center;
+    border-top: 4px solid var(--sos-yellow);
+  }
+  .confirm-icon { font-size: 38px; margin-bottom: 8px; }
+  .confirm-title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .confirm-ref { font-size: 12px; color: rgba(255,255,255,0.70); font-weight: 700; letter-spacing: 0.5px; }
+  .confirm-details { background: var(--white); border-radius: var(--cr); margin: 10px var(--cx) 0; overflow: hidden; box-shadow: var(--shadow-sm); }
+
+  /* ════════════════════════════════════
+     INDUCTION TAB
+  ════════════════════════════════════ */
+  .induction-hero {
+    background: linear-gradient(150deg, var(--sos-navy) 0%, var(--sos-blue) 100%);
+    border-radius: var(--cr); padding: 0;
+    margin: 14px var(--cx); position: relative; overflow: hidden;
+  }
+  .induction-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--sos-yellow); }
+  .ind-hero-inner { padding: 18px var(--cx); position: relative; z-index: 1; }
+  .ih-eyebrow { font-size: 10px; font-weight: 800; color: var(--sos-yellow); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }
+  .ih-title { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .ih-sub { font-size: 12px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+  .induction-progress {
+    background: var(--white); border-radius: var(--cr);
+    padding: 12px 16px; margin: 0 var(--cx) 14px;
+    display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--sos-yellow);
+  }
+  .ind-prog-bar { flex: 1; }
+  .ind-prog-label { font-size: 11px; color: var(--text-mid); margin-bottom: 5px; font-weight: 600; }
+  .ind-prog-track { height: 9px; background: var(--sos-light-bg); border-radius: 8px; overflow: hidden; }
+  .ind-prog-fill { height: 100%; background: linear-gradient(90deg, var(--sos-navy), var(--sos-blue)); border-radius: 8px; transition: width 0.5s ease; }
+  .ind-count { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 900; color: var(--sos-navy); text-align: center; }
+  .ind-count small { font-size: 10px; color: var(--text-mid); display: block; font-family: 'Barlow', sans-serif; font-weight: 700; text-transform: uppercase; }
+
+  .induction-list { margin: 0 var(--cx); display: flex; flex-direction: column; gap: 8px; }
+  .ind-item {
+    background: var(--white); border-radius: var(--cr);
+    padding: 12px 14px; display: flex; gap: 11px;
+    align-items: center; box-shadow: var(--shadow-sm); cursor: pointer;
+    transition: transform 0.12s;
+  }
+  .ind-item:active { transform: scale(0.98); }
+  .ind-check {
+    width: 24px; height: 24px; border-radius: 5px;
+    border: 2px solid var(--border); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; transition: all 0.15s; color: transparent;
+  }
+  .ind-check.checked { background: var(--sos-navy); border-color: var(--sos-navy); color: var(--sos-yellow); }
+  .ind-label { font-size: 13px; font-weight: 500; color: var(--text-dark); flex: 1; line-height: 1.4; }
+  .ind-label.checked { color: var(--text-light); text-decoration: line-through; }
+
+  .ppe-row {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    background: var(--white); border-radius: var(--cr);
+    padding: 14px; margin: 0 var(--cx) 14px; box-shadow: var(--shadow-sm);
+    border-top: 2px solid var(--sos-yellow);
+  }
+  .ppe-chip {
+    display: flex; align-items: center; gap: 5px;
+    background: var(--sos-light-bg); border-radius: 5px;
+    padding: 5px 10px; font-size: 11px; font-weight: 700; color: var(--sos-navy);
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .ppe-chip .ppe-icon { font-size: 14px; }
+  .ppe-chip.required { background: var(--red-light); color: var(--red); }
+
+  .sign-off-card {
+    background: var(--white); border-radius: var(--cr);
+    margin: 0 var(--cx); box-shadow: var(--shadow-sm); overflow: hidden;
+    border-top: 4px solid var(--sos-yellow);
+  }
+  .sign-off-header { background: var(--sos-navy); padding: 12px 16px; }
+  .sign-off-header h4 { font-size: 14px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sign-off-header p { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .sign-off-body { padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+
+  .sign-confirmed { display: none; background: var(--green-light); border-radius: var(--cr); padding: 18px; margin: 0 var(--cx); text-align: center; box-shadow: var(--shadow-sm); border-top: 4px solid var(--green); }
+  .sign-confirmed.show { display: block; }
+  .sc-icon { font-size: 32px; margin-bottom: 6px; }
+  .sc-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 900; color: var(--green); text-transform: uppercase; }
+  .sc-ref { font-size: 11px; color: var(--green); margin-top: 4px; font-weight: 700; }
+
+  /* ── MODAL ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,36,93,0.65); z-index: 200; backdrop-filter: blur(4px); }
+  .modal-overlay.open { display: flex; align-items: flex-end; }
+  .modal-sheet {
+    background: var(--white); border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 430px; margin: 0 auto;
+    padding: 0 0 36px; animation: slideUp 0.28s ease; overflow: hidden;
+  }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-topbar { background: var(--sos-navy); padding: 14px 20px; border-bottom: 3px solid var(--sos-yellow); }
+  .modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.20); border-radius: 4px; margin: 0 auto 10px; }
+  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 900; color: var(--white); text-transform: uppercase; letter-spacing: 0.3px; }
+  .modal-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 3px; line-height: 1.4; }
+  .modal-body { padding: 16px 20px; }
+  .modal-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+  .modal-meta-item { background: var(--sos-light-bg); border-radius: 8px; padding: 9px 11px; border-left: 3px solid var(--sos-pale); }
+  .mm-label { font-size: 9px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.7px; font-weight: 700; }
+  .mm-val { font-size: 13px; font-weight: 700; color: var(--text-dark); margin-top: 2px; }
+  .modal-loading { display: flex; flex-direction: column; align-items: center; padding: 28px 0; gap: 10px; }
+  .spinner { width: 30px; height: 30px; border: 3px solid var(--sos-pale); border-top-color: var(--sos-blue); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+  .modal-loading p { font-size: 13px; color: var(--text-mid); font-weight: 600; }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(90px);
+    background: var(--sos-navy);
+    border-top: 3px solid var(--sos-yellow);
+    color: white; padding: 12px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    z-index: 999; box-shadow: var(--shadow-lg);
+    transition: transform 0.32s cubic-bezier(0.175,0.885,0.32,1.275);
+    max-width: 90%; text-align: center;
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .pb-safe { padding-bottom: 40px; }
+
+  /* ════════════════════════════════════
+     BOOK TAB
+  ════════════════════════════════════ */
+
+  /* hero banner */
+  .book-hero {
+    background: linear-gradient(150deg, var(--sos-navy) 0%, var(--sos-blue) 100%);
+    border-radius: var(--cr); margin: 14px var(--cx);
+    position: relative; overflow: hidden;
+  }
+  .book-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--sos-yellow); }
+  .book-hero::after  { content:''; position:absolute; bottom:-30px; right:-30px; width:100px; height:100px; border-radius:50%; background:rgba(245,200,0,0.08); }
+  .book-hero-inner { padding: 16px var(--cx); position:relative; z-index:1; }
+  .bh-eyebrow { font-size:10px; font-weight:800; color:var(--sos-yellow); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:5px; }
+  .bh-title { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.3px; margin-bottom:3px; }
+  .bh-sub { font-size:11px; color:rgba(255,255,255,0.60); line-height:1.5; }
+
+  /* quick-contact strip */
+  .book-contact-strip {
+    display:flex; gap:8px; margin:0 var(--cx) 14px;
+  }
+  .bcs-btn {
+    flex:1; display:flex; align-items:center; justify-content:center; gap:6px;
+    background:var(--white); border-radius:8px; padding:11px 8px;
+    border:2px solid var(--border); cursor:pointer; transition:all 0.15s;
+    font-family:'Barlow',sans-serif; font-size:11px; font-weight:700;
+    color:var(--sos-navy); text-transform:uppercase; letter-spacing:0.3px;
+    text-decoration:none;
+  }
+  .bcs-btn:active { background:var(--sos-light-bg); }
+  .bcs-btn.primary { background:var(--sos-yellow); border-color:var(--sos-yellow); color:var(--sos-navy); }
+  .bcs-btn .bcs-icon { font-size:16px; }
+
+  /* unit catalogue */
+  .unit-catalogue { display:flex; flex-direction:column; gap:8px; margin:0 var(--cx); }
+
+  .unit-tile {
+    background:var(--white); border-radius:var(--cr);
+    box-shadow:var(--shadow-sm); overflow:hidden;
+    border-left:4px solid var(--sos-blue); cursor:pointer;
+    transition:transform 0.12s, box-shadow 0.12s;
+  }
+  .unit-tile:active { transform:scale(0.98); }
+  .unit-tile.selected { border-left-color:var(--sos-yellow); box-shadow:0 0 0 2px var(--sos-yellow), var(--shadow-md); }
+
+  .unit-tile-inner { display:flex; align-items:center; gap:12px; padding:12px 14px; }
+
+  .unit-tile-icon {
+    width:44px; height:44px; flex-shrink:0; border-radius:8px;
+    background:var(--sos-light-bg); display:flex; align-items:center; justify-content:center;
+  }
+  .unit-tile-icon svg { width:32px; height:20px; }
+
+  .unit-tile-body { flex:1; }
+  .unit-tile-name { font-size:13px; font-weight:800; color:var(--text-dark); }
+  .unit-tile-desc { font-size:11px; color:var(--text-mid); margin-top:2px; line-height:1.4; }
+
+  .unit-tile-price {
+    text-align:right; flex-shrink:0;
+  }
+  .price-from { font-size:9px; color:var(--text-light); font-weight:700; text-transform:uppercase; letter-spacing:0.4px; }
+  .price-val { font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:900; color:var(--sos-blue); line-height:1; }
+  .price-pw { font-size:9px; color:var(--text-light); font-weight:600; }
+
+  .unit-tile-select {
+    display:none; background:var(--sos-yellow); padding:7px 14px;
+    font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:900;
+    color:var(--sos-navy); text-transform:uppercase; letter-spacing:0.5px;
+    align-items:center; gap:6px;
+  }
+  .unit-tile.selected .unit-tile-select { display:flex; }
+
+  /* booking form */
+  .book-form { display:none; margin:0 var(--cx); }
+  .book-form.show { display:flex; flex-direction:column; gap:12px; }
+
+  .book-form-header {
+    background:var(--sos-navy); border-radius:var(--cr);
+    padding:13px 16px; display:flex; gap:10px; align-items:center;
+    border-left:4px solid var(--sos-yellow);
+  }
+  .bfh-icon { font-size:20px; flex-shrink:0; }
+  .bfh-title { font-size:13px; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:0.3px; }
+  .bfh-sub { font-size:11px; color:rgba(255,255,255,0.55); margin-top:2px; }
+
+  .date-row { display:flex; gap:8px; }
+  .date-row > div { flex:1; }
+
+  .qty-row { display:flex; align-items:center; gap:12px; background:var(--white); border:2px solid var(--border); border-radius:8px; padding:4px 14px; }
+  .qty-label { font-size:13px; color:var(--text-dark); flex:1; font-weight:500; }
+  .qty-btn { width:30px; height:30px; border-radius:6px; border:2px solid var(--border); background:var(--white); font-size:18px; font-weight:700; color:var(--sos-navy); cursor:pointer; display:flex; align-items:center; justify-content:center; line-height:1; transition:all 0.12s; }
+  .qty-btn:active { background:var(--sos-light-bg); }
+  .qty-val { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; color:var(--sos-navy); min-width:28px; text-align:center; }
+
+  /* booking confirm */
+  .book-confirm { display:none; animation:fadeIn 0.25s ease; }
+  .book-confirm.show { display:block; }
+  .book-confirm-hero {
+    background:linear-gradient(135deg, var(--sos-navy) 0%, var(--sos-blue) 100%);
+    border-radius:var(--cr); padding:22px var(--cx);
+    margin:14px var(--cx) 0; text-align:center;
+    border-top:4px solid var(--sos-yellow);
+  }
+  .bc-icon { font-size:38px; margin-bottom:8px; }
+  .bc-title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; color:#fff; text-transform:uppercase; letter-spacing:0.5px; }
+  .bc-ref { font-size:12px; color:rgba(255,255,255,0.65); font-weight:700; margin-top:4px; }
+  .bc-sub { font-size:12px; color:rgba(255,255,255,0.50); margin-top:6px; line-height:1.5; }
+
+  /* trust badges */
+  .trust-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 var(--cx) 14px; }
+  .trust-badge { background:var(--white); border-radius:var(--cr); padding:11px 12px; box-shadow:var(--shadow-sm); display:flex; align-items:center; gap:8px; }
+  .trust-badge .tb-icon { font-size:18px; flex-shrink:0; }
+  .trust-badge .tb-text { font-size:11px; font-weight:700; color:var(--sos-navy); line-height:1.3; }
+  .trust-badge .tb-sub  { font-size:10px; color:var(--text-light); font-weight:500; }
+
+  /* ════════════════════════════════════
+     CONNECTLOOP — v4 ADDITIONS
+  ════════════════════════════════════ */
+
+  /* ── header logo (real SOS reversed mark) ── */
+  .sos-logo-img { height: 30px; width: auto; display: block; }
+  .logo-divider { width: 1px; height: 26px; background: rgba(255,255,255,0.20); }
+  .cl-lockup { line-height: 1.15; }
+  .cl-lockup .cl-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px; font-weight: 900; color: #fff;
+    text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .cl-lockup .cl-name span { color: var(--sos-yellow); }
+  .cl-lockup .cl-mod {
+    font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.50);
+    text-transform: uppercase; letter-spacing: 0.9px; margin-top: 1px;
+  }
+
+  /* ── module chip (ConnectLoop | X) ── */
+  .mod-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--sos-navy); color: #fff;
+    border-radius: 100px; padding: 5px 12px 5px 10px;
+    font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.9px;
+    border-left: 3px solid var(--sos-yellow);
+  }
+  .mod-chip b { color: var(--sos-yellow); font-weight: 900; }
+  .mod-chip-row { margin: 0 var(--cx) 12px; }
+
+  /* ════════════════════════════════════
+     LIVE BEACON
+  ════════════════════════════════════ */
+  .beacon-card {
+    background: linear-gradient(155deg, #001A4A 0%, var(--sos-navy) 45%, #003A8C 100%);
+    border-radius: var(--cr); margin: 0 var(--cx) 14px;
+    overflow: hidden; position: relative;
+    box-shadow: var(--shadow-md);
+    border-top: 4px solid var(--sos-yellow);
+  }
+  .beacon-top { padding: 14px var(--cx) 12px; display: flex; gap: 14px; align-items: center; }
+
+  .pulse-stage { width: 74px; height: 74px; flex-shrink: 0; position: relative; display: flex; align-items: center; justify-content: center; }
+  .pulse-ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid var(--sos-yellow); opacity: 0;
+    animation: beacon-pulse 3.2s cubic-bezier(0.22,0.61,0.36,1) infinite;
+  }
+  .pulse-ring:nth-child(2) { animation-delay: 1.05s; }
+  .pulse-ring:nth-child(3) { animation-delay: 2.10s; }
+  @keyframes beacon-pulse {
+    0%   { transform: scale(0.34); opacity: 0.85; }
+    70%  { opacity: 0.12; }
+    100% { transform: scale(1); opacity: 0; }
+  }
+  .pulse-core {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--sos-yellow); position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px rgba(255,203,5,0.55);
+    animation: core-breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes core-breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(0.9)} }
+  .pulse-core svg { width: 15px; height: 15px; }
+
+  .beacon-head { flex: 1; min-width: 0; }
+  .beacon-eyebrow { font-size: 9px; font-weight: 800; color: var(--sos-yellow); text-transform: uppercase; letter-spacing: 1.3px; }
+  .beacon-title { font-family: 'Barlow Condensed', sans-serif; font-size: 21px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.3px; line-height: 1.05; margin-top: 3px; }
+  .beacon-loc { font-size: 11px; color: rgba(255,255,255,0.62); line-height: 1.45; margin-top: 4px; }
+  .geofence-pill {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 7px;
+    background: rgba(74,222,128,0.14); border: 1px solid rgba(74,222,128,0.32);
+    color: #86EFAC; font-size: 10px; font-weight: 800;
+    padding: 3px 9px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+
+  .beacon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.10); }
+  .bg-cell { background: rgba(0,0,0,0.22); padding: 10px 14px; }
+  .bg-label { font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.42); text-transform: uppercase; letter-spacing: 0.8px; }
+  .bg-val { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 900; color: #fff; line-height: 1.15; margin-top: 3px; }
+  .bg-val small { font-size: 10px; font-family: 'Barlow', sans-serif; font-weight: 700; color: rgba(255,255,255,0.50); letter-spacing: 0.3px; }
+  .bg-val.yellow { color: var(--sos-yellow); }
+
+  .batt-wrap { display: flex; align-items: center; gap: 7px; margin-top: 5px; }
+  .batt-shell {
+    flex: 1; height: 9px; border-radius: 3px; position: relative;
+    border: 1.5px solid rgba(255,255,255,0.38); padding: 1px;
+  }
+  .batt-shell::after {
+    content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
+    width: 2.5px; height: 4px; border-radius: 0 2px 2px 0; background: rgba(255,255,255,0.38);
+  }
+  .batt-fill { height: 100%; border-radius: 1.5px; background: #4ADE80; transition: width 0.8s ease; }
+  .batt-pct { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 900; color: #fff; }
+
+  .beacon-foot {
+    padding: 10px var(--cx) 12px; background: rgba(0,0,0,0.30);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+  .beacon-privacy { font-size: 9.5px; color: rgba(255,255,255,0.40); line-height: 1.45; flex: 1; }
+  .beacon-hist-btn {
+    flex-shrink: 0; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18);
+    color: #fff; font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 800;
+    padding: 7px 11px; border-radius: 6px; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .beacon-hist-btn:active { background: rgba(255,255,255,0.18); }
+
+  .ping-log { display: none; background: rgba(0,0,0,0.42); padding: 4px var(--cx) 12px; }
+  .ping-log.open { display: block; animation: fadeIn 0.2s ease; }
+  .ping-row { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .ping-row:last-child { border-bottom: none; }
+  .ping-dot { width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; flex-shrink: 0; }
+  .ping-when { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.88); flex: 1; }
+  .ping-tag { font-size: 9px; font-weight: 800; color: rgba(255,255,255,0.38); text-transform: uppercase; letter-spacing: 0.6px; }
+
+  /* ════════════════════════════════════
+     LOCATION & SITE ACCESS
+  ════════════════════════════════════ */
+  .loc-card { background: var(--white); border-radius: var(--cr); margin: 0 var(--cx) 14px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .loc-addr { padding: 13px var(--cx); display: flex; gap: 11px; align-items: flex-start; border-bottom: 1px solid var(--border); }
+  .loc-pin { font-size: 19px; flex-shrink: 0; line-height: 1.2; }
+  .loc-addr-title { font-size: 13px; font-weight: 800; color: var(--sos-navy); }
+  .loc-addr-body { font-size: 11.5px; color: var(--text-mid); line-height: 1.55; margin-top: 3px; }
+  .loc-position {
+    padding: 11px var(--cx); background: var(--sos-yellow-lt);
+    border-bottom: 1px solid var(--border); display: flex; gap: 11px; align-items: flex-start;
+  }
+  .loc-pos-label { font-size: 9px; font-weight: 900; color: var(--warn); text-transform: uppercase; letter-spacing: 0.9px; }
+  .loc-pos-val { font-size: 12.5px; font-weight: 700; color: var(--text-dark); margin-top: 2px; line-height: 1.4; }
+
+  .access-notes { padding: 12px var(--cx) 4px; }
+  .access-title { font-size: 10px; font-weight: 900; color: var(--red); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+  .access-item { display: flex; gap: 9px; align-items: flex-start; padding: 7px 0; border-bottom: 1px dashed var(--border); }
+  .access-item:last-child { border-bottom: none; }
+  .access-ico { font-size: 14px; flex-shrink: 0; line-height: 1.3; }
+  .access-txt { font-size: 11.5px; color: var(--text-dark); line-height: 1.5; font-weight: 500; }
+  .access-txt b { font-weight: 800; color: var(--red); }
+  .loc-actions { display: flex; gap: 8px; padding: 10px var(--cx) 13px; }
+  .loc-btn {
+    flex: 1; text-align: center; text-decoration: none;
+    background: var(--sos-light-bg); border: 2px solid var(--border);
+    border-radius: 8px; padding: 10px 6px;
+    font-size: 11px; font-weight: 800; color: var(--sos-navy);
+    text-transform: uppercase; letter-spacing: 0.4px; cursor: pointer;
+  }
+  .loc-btn:active { background: var(--sos-pale); }
+
+  /* ════════════════════════════════════
+     OFF-HIRE / RETURN
+  ════════════════════════════════════ */
+  .offhire-card { background: var(--white); border-radius: var(--cr); margin: 0 var(--cx) 14px; box-shadow: var(--shadow-sm); overflow: hidden; border-left: 4px solid var(--sos-blue); }
+  .oh-head { padding: 13px var(--cx) 11px; border-bottom: 1px solid var(--border); }
+  .oh-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 900; color: var(--sos-navy); text-transform: uppercase; letter-spacing: 0.3px; }
+  .oh-sub { font-size: 11px; color: var(--text-mid); margin-top: 3px; line-height: 1.5; }
+  .oh-steps { padding: 11px var(--cx) 6px; counter-reset: ohs; }
+  .oh-step { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; }
+  .oh-num {
+    counter-increment: ohs; flex-shrink: 0;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--sos-light-bg); color: var(--sos-blue);
+    font-size: 10px; font-weight: 900; display: flex; align-items: center; justify-content: center;
+  }
+  .oh-num::before { content: counter(ohs); }
+  .oh-txt { font-size: 11.5px; color: var(--text-dark); line-height: 1.5; font-weight: 500; }
+  .oh-actions { display: flex; gap: 8px; padding: 8px var(--cx) 13px; }
+
+  /* ════════════════════════════════════
+     DEPOT CARDS
+  ════════════════════════════════════ */
+  .depot-grid { display: flex; flex-direction: column; gap: 8px; margin: 0 var(--cx) 14px; }
+  .depot-card { background: var(--white); border-radius: var(--cr); box-shadow: var(--shadow-sm); padding: 12px var(--cx); border-left: 4px solid var(--sos-yellow); }
+  .depot-card.home { border-left-color: var(--sos-blue); }
+  .depot-name-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .depot-name { font-size: 13px; font-weight: 900; color: var(--sos-navy); text-transform: uppercase; letter-spacing: 0.3px; }
+  .depot-tag { font-size: 9px; font-weight: 800; padding: 2.5px 7px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; background: var(--sos-light-bg); color: var(--sos-blue); }
+  .depot-tag.this { background: var(--green-light); color: var(--green); }
+  .depot-addr { font-size: 11px; color: var(--text-mid); line-height: 1.5; margin-top: 4px; }
+  .depot-hours { margin-top: 8px; display: flex; flex-direction: column; gap: 3px; }
+  .dh-row { display: flex; justify-content: space-between; gap: 8px; font-size: 10.5px; }
+  .dh-key { color: var(--text-light); font-weight: 700; }
+  .dh-val { color: var(--text-dark); font-weight: 700; }
+  .depot-call { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; text-decoration: none; background: var(--sos-navy); color: #fff; font-size: 11px; font-weight: 800; padding: 8px 13px; border-radius: 7px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  /* ════════════════════════════════════
+     SERVICE / LIFECYCLE TIMELINE
+  ════════════════════════════════════ */
+  .timeline { margin: 0 var(--cx) 14px; padding: 4px 0 0 4px; border-left: 2px solid var(--border); }
+  .tl-item { position: relative; padding: 0 0 14px 18px; }
+  .tl-item:last-child { padding-bottom: 2px; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -7px; top: 3px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--sos-blue); border: 2px solid var(--bg);
+  }
+  .tl-item.now::before { background: var(--sos-yellow); }
+  .tl-date { font-size: 9.5px; font-weight: 900; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.7px; }
+  .tl-title { font-size: 12.5px; font-weight: 800; color: var(--text-dark); margin-top: 2px; }
+  .tl-body { font-size: 11px; color: var(--text-mid); line-height: 1.5; margin-top: 2px; }
+
+  /* ════════════════════════════════════
+     CATEGORY LINKS (out to storageonsite.co.uk)
+  ════════════════════════════════════ */
+  .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 var(--cx) 6px; }
+  .cat-tile {
+    background: var(--white); border-radius: var(--cr); box-shadow: var(--shadow-sm);
+    padding: 13px 12px; text-decoration: none; display: flex; flex-direction: column; gap: 5px;
+    border-bottom: 3px solid var(--sos-yellow); transition: transform 0.12s;
+  }
+  .cat-tile:active { transform: scale(0.975); }
+  .cat-ico { font-size: 20px; line-height: 1; }
+  .cat-name { font-size: 12px; font-weight: 800; color: var(--sos-navy); line-height: 1.25; }
+  .cat-sub { font-size: 10px; color: var(--text-light); font-weight: 600; line-height: 1.35; }
+  .cat-out { font-size: 9px; font-weight: 800; color: var(--sos-blue); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
+  .cat-note {
+    margin: 4px var(--cx) 14px; font-size: 10.5px; color: var(--text-light);
+    line-height: 1.5; text-align: center; font-weight: 600;
+  }
+
+  /* ── extend hire chips ── */
+  .ext-card { background: var(--white); border-radius: var(--cr); margin: 0 var(--cx) 14px; box-shadow: var(--shadow-sm); overflow: hidden; border-top: 3px solid var(--sos-yellow); }
+  .ext-head { padding: 13px var(--cx) 10px; }
+  .ext-current { font-size: 11px; color: var(--text-mid); line-height: 1.5; margin-top: 4px; }
+  .ext-current b { color: var(--sos-navy); font-weight: 800; }
+  .ext-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 4px var(--cx) 12px; }
+  .ext-chip {
+    background: var(--sos-light-bg); border: 2px solid var(--border);
+    border-radius: 100px; padding: 8px 14px; cursor: pointer;
+    font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 800; color: var(--sos-navy);
+  }
+  .ext-chip.active { background: var(--sos-yellow); border-color: var(--sos-yellow); }
+  .ext-newdate {
+    margin: 0 var(--cx) 12px; background: var(--sos-yellow-lt); border-radius: 8px;
+    padding: 11px 14px; font-size: 11.5px; color: var(--text-dark); line-height: 1.5;
+    display: none;
+  }
+  .ext-newdate.show { display: block; }
+  .ext-newdate b { color: var(--warn); font-weight: 900; }
+  .ext-submit { padding: 0 var(--cx) 14px; }
+
+  /* ── review / trust ── */
+  .rating-strip {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--white); border-radius: var(--cr); box-shadow: var(--shadow-sm);
+    margin: 0 var(--cx) 14px; padding: 12px var(--cx); border-left: 4px solid var(--sos-yellow);
+  }
+  .rating-score { font-family: 'Barlow Condensed', sans-serif; font-size: 30px; font-weight: 900; color: var(--sos-navy); line-height: 1; }
+  .rating-body { flex: 1; }
+  .rating-stars { font-size: 12px; letter-spacing: 1px; color: var(--sos-yellow); }
+  .rating-meta { font-size: 10.5px; color: var(--text-mid); font-weight: 600; margin-top: 2px; line-height: 1.4; }
+
+  /* ── app footer ── */
+  .app-footer {
+    background: var(--sos-navy); padding: 18px var(--cx) 26px; text-align: center;
+    border-top: 4px solid var(--sos-yellow);
+  }
+  .af-mark { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+  .af-mark span { color: var(--sos-yellow); }
+  .af-tag { font-size: 11px; color: rgba(255,255,255,0.55); font-style: italic; margin-top: 4px; line-height: 1.5; }
+  .af-rule { width: 40px; height: 2px; background: rgba(255,255,255,0.18); margin: 12px auto; }
+  .af-note { font-size: 9.5px; color: rgba(255,255,255,0.35); line-height: 1.6; }
+  .af-note a { color: rgba(255,255,255,0.55); }
+
+  /* ── misc helpers ── */
+  .note-strip {
+    margin: 0 var(--cx) 14px; background: var(--sos-light-bg); border-radius: 8px;
+    padding: 11px 14px; display: flex; gap: 9px; align-items: flex-start;
+  }
+  .note-strip .ns-ico { font-size: 15px; flex-shrink: 0; line-height: 1.3; }
+  .note-strip .ns-txt { font-size: 11px; color: var(--sos-navy); line-height: 1.55; }
+  .note-strip .ns-txt b { font-weight: 800; }
+</style>
+</head>
+<body>
+
+<!-- OFFLINE BANNER -->
+<div class="offline-banner" id="offline-banner">📵 Offline — showing cached data · Last sync: <span id="last-sync-time">—</span></div>
+
+<!-- ════════════════════════════════
+     HEADER
+════════════════════════════════ -->
+<header class="app-header" id="app-header">
+
+  <div class="header-utility">
+    <div class="util-left">
+      <span style="color:var(--sos-yellow);font-weight:800;">ConnectLoop</span>
+      <span style="color:rgba(255,255,255,0.25);">|</span>
+      <span id="util-module">Hire</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="tel:02380332266" style="text-decoration:none;" class="util-phone">023 8033 2266</a>
+      <div class="conn-pill">
+        <div class="conn-dot" id="conn-dot-inner"></div>
+        <span id="conn-label">Live</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <div class="sos-logo">
+      <img class="sos-logo-img" src="data:image/png;base64,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" alt="Storage on Site">
+      <div class="logo-divider"></div>
+      <div class="cl-lockup">
+        <div class="cl-name">Connect<span>Loop</span></div>
+        <div class="cl-mod">Hire · Asset · Safety</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="last-ts" id="last-updated-ts">—</div>
+    </div>
+  </div>
+
+  <div class="unit-strip">
+    <div>
+      <div class="unit-id">20ft Office Cabin · A-021</div>
+      <div class="unit-meta">Ref: SOS-2026-8821 · Hedge End, Southampton</div>
+    </div>
+    <div class="scan-col">
+      <div class="nfc-badge"><div class="nfc-ring"></div><span>NFC Tap</span></div>
+      <div class="scan-time" id="scan-time">—</div>
+    </div>
+  </div>
+
+</header>
+
+<!-- NAV TABS -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('hire',this,'Hire')">
+    <span class="tab-icon">
+      <svg viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg" width="24" height="15" style="display:block;margin:0 auto;">
+        <rect x="0" y="2" width="32" height="16" rx="2" fill="currentColor"/>
+        <rect x="0" y="0" width="32" height="3" rx="1.5" fill="currentColor"/>
+        <line x1="6"  y1="2" x2="6"  y2="18" stroke="white" stroke-width="1.3" opacity="0.45"/>
+        <line x1="11" y1="2" x2="11" y2="18" stroke="white" stroke-width="1.3" opacity="0.45"/>
+        <line x1="16" y1="2" x2="16" y2="18" stroke="white" stroke-width="1.3" opacity="0.45"/>
+        <line x1="21" y1="2" x2="21" y2="18" stroke="white" stroke-width="1.3" opacity="0.45"/>
+        <line x1="26" y1="2" x2="26" y2="18" stroke="white" stroke-width="1.3" opacity="0.45"/>
+        <rect x="14.5" y="7.5" width="3" height="5" rx="0.8" fill="white" opacity="0.75"/>
+        <rect x="0"  y="2"  width="3.5" height="3.5" rx="0.5" fill="white" opacity="0.8"/>
+        <rect x="28.5" y="2"  width="3.5" height="3.5" rx="0.5" fill="white" opacity="0.8"/>
+        <rect x="0"  y="14.5" width="3.5" height="3.5" rx="0.5" fill="white" opacity="0.8"/>
+        <rect x="28.5" y="14.5" width="3.5" height="3.5" rx="0.5" fill="white" opacity="0.8"/>
+      </svg>
+    </span>Hire
+  </button>
+  <button class="nav-tab" onclick="showTab('asset',this,'Asset')">
+    <span class="tab-icon">🏷️</span>Asset
+  </button>
+  <button class="nav-tab" onclick="showTab('safety',this,'Safety')">
+    <span class="tab-icon">⛑️</span>Safety
+  </button>
+  <button class="nav-tab" onclick="showTab('report',this,'Report')">
+    <span class="tab-icon">⚠️</span>Report
+    <span class="badge" id="report-badge">1</span>
+  </button>
+  <button class="nav-tab" onclick="showTab('access',this,'Access')">
+    <span class="tab-icon">📂</span>Access
+  </button>
+  <button class="nav-tab" onclick="showTab('extend',this,'Hire')">
+    <span class="tab-icon">➕</span>Extend
+  </button>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: HIRE  (ConnectLoop | Hire)
+════════════════════════════════════════ -->
+<section class="screen active" id="screen-hire">
+
+  <div class="mod-chip-row">
+    <div class="mod-chip">ConnectLoop <b>| Hire</b></div>
+  </div>
+
+  <!-- LIVE BEACON -->
+  <div class="beacon-card">
+    <div class="beacon-top">
+      <div class="pulse-stage">
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-ring"></div>
+        <div class="pulse-core">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="#00205C"/>
+          </svg>
+        </div>
+      </div>
+      <div class="beacon-head">
+        <div class="beacon-eyebrow">Location Beacon · Active</div>
+        <div class="beacon-title">Location Confirmed</div>
+        <div class="beacon-loc">Imperial House, 24 Botley Road<br>Hedge End, Southampton SO30 2HE</div>
+        <div class="geofence-pill">✓ Within agreed site geofence</div>
+      </div>
+    </div>
+
+    <div class="beacon-grid">
+      <div class="bg-cell">
+        <div class="bg-label">Last Ping</div>
+        <div class="bg-val" id="beacon-last">—</div>
+      </div>
+      <div class="bg-cell">
+        <div class="bg-label">Next Scheduled Ping</div>
+        <div class="bg-val yellow" id="beacon-next">—</div>
+      </div>
+      <div class="bg-cell">
+        <div class="bg-label">Device Battery</div>
+        <div class="batt-wrap">
+          <div class="batt-shell"><div class="batt-fill" id="batt-fill" style="width:0%;"></div></div>
+          <div class="batt-pct" id="batt-pct">—</div>
+        </div>
+      </div>
+      <div class="bg-cell">
+        <div class="bg-label">Reporting Schedule</div>
+        <div class="bg-val">2<small> × daily</small></div>
+      </div>
+    </div>
+
+    <div class="beacon-foot">
+      <div class="beacon-privacy">Position is reported to SOS Fleet Control only. The beacon locates the <b style="color:rgba(255,255,255,0.65);">unit</b>, not people — no personal data is collected or stored.</div>
+      <button class="beacon-hist-btn" onclick="togglePingLog()" id="ping-log-btn">History</button>
+    </div>
+
+    <div class="ping-log" id="ping-log"></div>
+  </div>
+
+  <!-- UNIT HERO -->
+  <div class="unit-hero">
+    <div class="hero-inner">
+      <div class="hero-label">Hire Status — On Hire</div>
+      <div class="hero-status-row">
+        <div class="hero-pill">✓ Active</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.50);font-weight:600;">PUWER Compliant</div>
+      </div>
+      <div class="hero-unit-name">20ft Site Office<br><em>Cabin — A-021</em></div>
+      <div class="hero-meta-grid">
+        <div class="hero-meta-box">
+          <div class="hm-label">Delivered</div>
+          <div class="hm-val">03 Aug 2026</div>
+        </div>
+        <div class="hero-meta-box">
+          <div class="hm-label">Off-Hire Date</div>
+          <div class="hm-val yellow">25 Sep 2026</div>
+        </div>
+        <div class="hero-meta-box">
+          <div class="hm-label">Client Ref</div>
+          <div class="hm-val">BCE-2026-14</div>
+        </div>
+        <div class="hero-meta-box">
+          <div class="hm-label">Home Depot</div>
+          <div class="hm-val">Southampton</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIRE COUNTDOWN -->
+  <div class="hire-countdown">
+    <div class="hc-header">
+      <div class="hc-label">Hire Period Remaining</div>
+      <div class="hc-days" id="hc-days-display">— <span>days left</span></div>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="hire-progress"></div>
+    </div>
+    <div class="progress-labels">
+      <span>Delivered: 03 Aug 2026</span>
+      <span>Off-hire: 25 Sep 2026</span>
+    </div>
+  </div>
+
+  <!-- LOCATION & SITE ACCESS -->
+  <div class="section-title">Location &amp; Site Access</div>
+  <div class="loc-card">
+    <div class="loc-addr">
+      <div class="loc-pin">📍</div>
+      <div>
+        <div class="loc-addr-title">Imperial House</div>
+        <div class="loc-addr-body">24 Botley Road, Hedge End<br>Southampton, Hampshire, SO30 2HE</div>
+      </div>
+    </div>
+
+    <div class="loc-position">
+      <div class="loc-pin">🅿️</div>
+      <div>
+        <div class="loc-pos-label">Position on site</div>
+        <div class="loc-pos-val">Front car park — east side, adjacent to the main pedestrian entrance. Long side facing the building.</div>
+      </div>
+    </div>
+
+    <div class="access-notes">
+      <div class="access-title">⚠️ Delivery &amp; Collection Restrictions</div>
+      <div class="access-item">
+        <div class="access-ico">🚛</div>
+        <div class="access-txt"><b>Lorry turning restricted.</b> HIAB must enter and exit forward via the Botley Road entrance only. No reversing onto Botley Road.</div>
+      </div>
+      <div class="access-item">
+        <div class="access-ico">👷</div>
+        <div class="access-txt">Banksman required for all vehicle movements in the car park. Site contact to attend.</div>
+      </div>
+      <div class="access-item">
+        <div class="access-ico">⚡</div>
+        <div class="access-txt">Overhead cable at the car park entrance — <b>4.2m clearance</b>. Confirm crane arc before lifting.</div>
+      </div>
+      <div class="access-item">
+        <div class="access-ico">🕗</div>
+        <div class="access-txt">Deliveries and collections between <b>08:00–15:00</b> only. Car park in use outside these hours.</div>
+      </div>
+      <div class="access-item">
+        <div class="access-ico">🅿️</div>
+        <div class="access-txt">Four parking bays must be coned off in advance of the vehicle arriving.</div>
+      </div>
+    </div>
+
+    <div class="loc-actions">
+      <a class="loc-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Imperial+House+24+Botley+Road+Hedge+End+Southampton+SO30+2HE" target="_blank" rel="noopener">🗺️ Open in Maps</a>
+      <div class="loc-btn" onclick="shareLocation()">📤 Share Details</div>
+    </div>
+  </div>
+
+  <!-- UNIT INSTRUCTIONS -->
+  <div class="section-title">Using This Unit</div>
+  <div class="checklist">
+    <div class="check-item ok" onclick="showToast('Heating: thermostat on the rear wall. Set 18–21°C. Do not obstruct the wall heater.')">
+      <div class="check-circle ok">🔥</div>
+      <div class="check-body">
+        <div class="check-title">Heating &amp; Thermostat</div>
+        <div class="check-sub">Wall-mounted panel heater · Rear wall control</div>
+      </div>
+      <div class="doc-arrow">›</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('Power: 32A commando inlet, external left side. 8 twin sockets. Do not daisy-chain extension leads.')">
+      <div class="check-circle ok">⚡</div>
+      <div class="check-body">
+        <div class="check-title">Power &amp; Sockets</div>
+        <div class="check-sub">32A commando inlet · 8 twin sockets</div>
+      </div>
+      <div class="doc-arrow">›</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('Security: 5-lever deadlock plus external lock box. Keys issued to site manager J. Hartley. Replacement keys via depot.')">
+      <div class="check-circle ok">🔐</div>
+      <div class="check-body">
+        <div class="check-title">Locks &amp; Keys</div>
+        <div class="check-sub">Deadlock + lock box · Keys with site manager</div>
+      </div>
+      <div class="doc-arrow">›</div>
+    </div>
+    <div class="check-item warn" onclick="showToast('Do NOT drill, weld, cut or paint the unit. Damage is chargeable under the hire agreement.')">
+      <div class="check-circle warn">!</div>
+      <div class="check-body">
+        <div class="check-title">Modification Restrictions</div>
+        <div class="check-sub">No drilling, welding, cutting or painting</div>
+      </div>
+      <div class="doc-arrow">›</div>
+    </div>
+  </div>
+
+  <!-- OFF-HIRE -->
+  <div class="section-title">Off-Hire &amp; Return</div>
+  <div class="offhire-card">
+    <div class="oh-head">
+      <div class="oh-title">Booked Off-Hire: 25 Sep 2026</div>
+      <div class="oh-sub">Hire continues to be charged until the unit is formally off-hired and collected. Give the depot at least <strong>5 working days' notice</strong>.</div>
+    </div>
+    <div class="oh-steps">
+      <div class="oh-step"><div class="oh-num"></div><div class="oh-txt">Request off-hire below or call the depot on 023 8033 2266.</div></div>
+      <div class="oh-step"><div class="oh-num"></div><div class="oh-txt">Empty the unit completely and sweep out. Removal of left goods is chargeable.</div></div>
+      <div class="oh-step"><div class="oh-num"></div><div class="oh-txt">Remove your padlock and return all issued keys to the driver.</div></div>
+      <div class="oh-step"><div class="oh-num"></div><div class="oh-txt">Ensure collection access is clear — coned bays, banksman, forward exit route.</div></div>
+      <div class="oh-step"><div class="oh-num"></div><div class="oh-txt">Condition inspection is completed at collection and logged against this asset.</div></div>
+    </div>
+    <div class="oh-actions">
+      <button class="loc-btn" onclick="requestOffHire()">📆 Request Off-Hire</button>
+      <button class="loc-btn" style="background:var(--sos-yellow);border-color:var(--sos-yellow);" onclick="showTab('extend',document.querySelectorAll('.nav-tab')[5],'Hire')">➕ Extend Hire</button>
+    </div>
+  </div>
+
+  <!-- DEPOTS -->
+  <div class="section-title">Your SOS Depots</div>
+  <div class="depot-grid">
+    <div class="depot-card home">
+      <div class="depot-name-row">
+        <div class="depot-name">Southampton</div>
+        <div class="depot-tag this">This unit's depot</div>
+      </div>
+      <div class="depot-addr">North Road, Marchwood Industrial Estate<br>Southampton, Hampshire, SO40 4BL</div>
+      <div class="depot-hours">
+        <div class="dh-row"><span class="dh-key">Depot — booking in/out</span><span class="dh-val">Mon–Fri 07:30–16:45</span></div>
+        <div class="dh-row"><span class="dh-key">Office</span><span class="dh-val">Mon–Fri 07:30–18:00</span></div>
+        <div class="dh-row"><span class="dh-key">Weekend</span><span class="dh-val">Closed</span></div>
+      </div>
+      <a class="depot-call" href="tel:02380332266">📞 023 8033 2266</a>
+    </div>
+    <div class="depot-card">
+      <div class="depot-name-row">
+        <div class="depot-name">Kent</div>
+        <div class="depot-tag">Aylesford</div>
+      </div>
+      <div class="depot-addr">Plot 8, Invicta Park, New Hythe Lane<br>Aylesford, Kent, ME20 7FG</div>
+      <div class="depot-hours">
+        <div class="dh-row"><span class="dh-key">Depot — booking in/out</span><span class="dh-val">Mon–Fri 07:30–16:45</span></div>
+        <div class="dh-row"><span class="dh-key">Office</span><span class="dh-val">Mon–Fri 07:30–18:00</span></div>
+        <div class="dh-row"><span class="dh-key">Weekend</span><span class="dh-val">Closed</span></div>
+      </div>
+      <a class="depot-call" href="tel:02380332266">📞 023 8033 2266</a>
+    </div>
+  </div>
+
+  <button class="btn-sos" onclick="callSOS()">
+    <div class="em-icon-box">📞</div>
+    <div class="em-text">
+      <h4>Call Storage on Site</h4>
+      <p>023 8033 2266 · Office 07:30–18:00 Mon–Fri</p>
+    </div>
+    <div class="em-arrow">›</div>
+  </button>
+
+  <div class="pb-safe"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: ASSET  (ConnectLoop | Asset)
+════════════════════════════════════════ -->
+<section class="screen" id="screen-asset">
+
+  <div class="mod-chip-row">
+    <div class="mod-chip">ConnectLoop <b>| Asset</b></div>
+  </div>
+
+  <div class="induction-hero">
+    <div class="ind-hero-inner">
+      <div class="ih-eyebrow">Asset Record — A-021</div>
+      <div class="ih-title">Asset Register</div>
+      <div class="ih-sub">Identification, specification, inspection history and lifecycle for this unit. Every record is tied to the ConnectLoop device fixed to the asset.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Asset Identification</div>
+  <div class="info-row">
+    <div class="info-item"><span class="info-key">Asset ID</span><span class="info-val">A-021</span></div>
+    <div class="info-item"><span class="info-key">Asset Type</span><span class="info-val">20ft Site Office Cabin</span></div>
+    <div class="info-item"><span class="info-key">Serial / VIN</span><span class="info-val">SOSC-20OC-0421</span></div>
+    <div class="info-item"><span class="info-key">ConnectLoop Tag</span><span class="info-val">CL-A021-8F2C</span></div>
+    <div class="info-item"><span class="info-key">Year of Build</span><span class="info-val">2019</span></div>
+    <div class="info-item"><span class="info-key">Condition Grade</span><span class="info-val">A — Refurbished Jan 2026</span></div>
+  </div>
+
+  <div class="section-title">Specification</div>
+  <div class="info-row">
+    <div class="info-item"><span class="info-key">External Dimensions</span><span class="info-val">6.0m × 2.4m × 2.6m</span></div>
+    <div class="info-item"><span class="info-key">Tare Weight</span><span class="info-val">2,450 kg</span></div>
+    <div class="info-item"><span class="info-key">Layout</span><span class="info-val">Office + Drying Room</span></div>
+    <div class="info-item"><span class="info-key">Power Supply</span><span class="info-val">32A Commando Inlet</span></div>
+    <div class="info-item"><span class="info-key">Heating</span><span class="info-val">2kW Panel Heater</span></div>
+    <div class="info-item"><span class="info-key">Fire Rating</span><span class="info-val">REI 30 — JCoP 10.2</span></div>
+    <div class="info-item"><span class="info-key">Lifting</span><span class="info-val">4-point corner castings · LOLER</span></div>
+  </div>
+
+  <div class="section-title">Compliance &amp; Inspection Register</div>
+  <div class="checklist">
+    <div class="check-item ok" onclick="showToast('PUWER inspection completed 03 Aug 2026 · Next due Feb 2027')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">PUWER Inspection</div>
+        <div class="check-sub">Completed 03 Aug 2026 · Next due Feb 2027</div>
+      </div>
+      <div class="check-badge ok">Current</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('Fire extinguisher last serviced 12 Jan 2026 · Annual BS 5306-8 service')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">Fire Extinguisher</div>
+        <div class="check-sub">Serviced 12 Jan 2026 · BS 5306-8</div>
+      </div>
+      <div class="check-badge ok">Valid</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('Smoke detector tested on delivery 03 Aug 2026 · BS 5839-1 compliant')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">Smoke Detector</div>
+        <div class="check-sub">Tested on delivery 03 Aug 2026 · BS 5839-1</div>
+      </div>
+      <div class="check-badge ok">OK</div>
+    </div>
+    <div class="check-item warn" onclick="showToast('PAT electrical test due — last completed Nov 2025. Contact the depot to arrange a visit.')">
+      <div class="check-circle warn">!</div>
+      <div class="check-body">
+        <div class="check-title">PAT Electrical Test</div>
+        <div class="check-sub">Last tested Nov 2025 · Renewal recommended</div>
+      </div>
+      <div class="check-badge warn">Due Soon</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('LOLER lifting examination 14 Jan 2026 · Corner castings and lifting points certified')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">LOLER Lifting Examination</div>
+        <div class="check-sub">Castings certified 14 Jan 2026</div>
+      </div>
+      <div class="check-badge ok">Current</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('Delivery condition report logged 03 Aug 2026 · Driver: M. Clarke · No defects noted')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">Delivery Condition Report</div>
+        <div class="check-sub">Logged 03 Aug 2026 · Driver: M. Clarke</div>
+      </div>
+      <div class="check-badge ok">Logged</div>
+    </div>
+    <div class="check-item ok" onclick="showToast('6m fire break confirmed at delivery · JCoP 10.2 compliance met')">
+      <div class="check-circle ok">✓</div>
+      <div class="check-body">
+        <div class="check-title">Fire Break Clearance</div>
+        <div class="check-sub">6m+ clearance confirmed · JCoP 10.2</div>
+      </div>
+      <div class="check-badge ok">Compliant</div>
+    </div>
+  </div>
+
+  <div class="section-title">Unit Summary</div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-val ok" id="days-on-hire">—</div>
+      <div class="stat-label">Days on hire</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📋</div>
+      <div class="stat-val">7</div>
+      <div class="stat-label">Compliance checks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">👷</div>
+      <div class="stat-val ok">11</div>
+      <div class="stat-label">Workers inducted</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-val warn" id="open-action-stat">1</div>
+      <div class="stat-label">Open action</div>
+    </div>
+  </div>
+
+  <div class="section-title">Outstanding Actions</div>
+  <div class="actions-panel">
+    <div class="actions-header" onclick="toggleActions()">
+      <div class="actions-header-left">
+        <div class="actions-count" id="actions-count-badge">1</div>
+        <h4 id="actions-header-title">1 Action Requires Attention</h4>
+      </div>
+      <span class="actions-chevron" id="actions-chevron">›</span>
+    </div>
+    <div class="actions-body" id="actions-body">
+      <div class="action-item">
+        <div>
+          <span class="action-badge" id="ab-pat">Open</span>
+          <div class="action-text">PAT electrical test renewal due — last tested Nov 2025. Contact the Southampton depot to arrange a visit.</div>
+          <div class="action-date">Raised 03 Aug 2026 · Assigned to: SOS Maintenance</div>
+          <button class="action-ack" onclick="acknowledgeAction(this)">Mark as actioned →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Service &amp; Lifecycle History</div>
+  <div class="timeline">
+    <div class="tl-item now">
+      <div class="tl-date">03 Aug 2026</div>
+      <div class="tl-title">Delivered to Imperial House, Hedge End</div>
+      <div class="tl-body">Positioned in front car park by M. Clarke. Condition report logged, no defects. ConnectLoop beacon activated.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">14 Jan 2026</div>
+      <div class="tl-title">LOLER examination &amp; refurbishment</div>
+      <div class="tl-body">Full refurbishment at Southampton depot — repaint, floor replacement, new panel heater. Condition regraded to A.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">12 Nov 2025</div>
+      <div class="tl-title">Off-hire and returned to depot</div>
+      <div class="tl-body">Returned from previous hire. Minor door seal wear noted and replaced.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2019</div>
+      <div class="tl-title">Entered SOS fleet</div>
+      <div class="tl-body">Manufactured 2019. 14 completed hires to date. Average hire length 11 weeks.</div>
+    </div>
+  </div>
+
+  <div class="note-strip">
+    <span class="ns-ico">🏷️</span>
+    <div class="ns-txt"><b>ConnectLoop | Asset</b> keeps this record permanently attached to the physical unit. Tap the device on any smartphone — no app download, no login, no personal data collected.</div>
+  </div>
+
+  <div class="pb-safe"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: SAFETY  (ConnectLoop | Safety)
+════════════════════════════════════════ -->
+<section class="screen" id="screen-safety">
+
+  <div class="mod-chip-row">
+    <div class="mod-chip">ConnectLoop <b>| Safety</b></div>
+  </div>
+
+  <div class="induction-hero">
+    <div class="ind-hero-inner">
+      <div class="ih-eyebrow">CDM 2015 — Digital Record</div>
+      <div class="ih-title">Site Induction</div>
+      <div class="ih-sub">Acknowledge all items before using or entering this unit. Your sign-off is timestamped and submitted to the site manager.</div>
+    </div>
+  </div>
+
+  <div class="induction-progress">
+    <div class="ind-prog-bar">
+      <div class="ind-prog-label" id="ind-prog-label">0 of 8 items acknowledged</div>
+      <div class="ind-prog-track">
+        <div class="ind-prog-fill" id="ind-prog-fill" style="width:0%;"></div>
+      </div>
+    </div>
+    <div class="ind-count" id="ind-count-display">0<small>of 8</small></div>
+  </div>
+
+  <div class="section-title">Induction Checklist</div>
+
+  <div class="induction-list">
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I have received site-specific rules and understand site access routes and restricted zones</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I am wearing all mandatory PPE for this site (hard hat, hi-vis vest, safety boots)</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I know the emergency evacuation route and muster point (Botley Road gate)</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I know where the first aid kit is located and who the first aider is on this site</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I understand fire safety arrangements — extinguisher location, 6m fire break, detector tested</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I am aware of the vehicle movement restrictions in the car park and the banksman requirement</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I understand welfare facilities available (toilets, handwashing, drinking water, rest area)</div>
+    </div>
+    <div class="ind-item" onclick="toggleInduction(this)">
+      <div class="ind-check">✓</div>
+      <div class="ind-label">I know how to report a hazard, incident or concern using ConnectLoop</div>
+    </div>
+  </div>
+
+  <div class="section-title">PPE Requirements</div>
+  <div class="ppe-row">
+    <div class="ppe-chip required"><span class="ppe-icon">⛑️</span> Hard Hat</div>
+    <div class="ppe-chip required"><span class="ppe-icon">🦺</span> Hi-Vis</div>
+    <div class="ppe-chip required"><span class="ppe-icon">🥾</span> Safety Boots</div>
+    <div class="ppe-chip"><span class="ppe-icon">🧤</span> Gloves (task)</div>
+    <div class="ppe-chip"><span class="ppe-icon">😷</span> RPE (if dusty)</div>
+  </div>
+
+  <div class="sign-off-card" id="sign-off-card">
+    <div class="sign-off-header">
+      <h4>CDM 2015 Digital Sign-Off</h4>
+      <p>Timestamped record submitted to site manager on completion</p>
+    </div>
+    <div class="sign-off-body">
+      <div>
+        <div class="form-label">Your Full Name</div>
+        <input class="form-input" type="text" id="sign-name" placeholder="Enter your full name…">
+      </div>
+      <div>
+        <div class="form-label">Company / Employer</div>
+        <input class="form-input" type="text" id="sign-company" placeholder="Company name or 'Self-employed'…">
+      </div>
+      <button class="btn-primary" onclick="submitInduction()">✅ Confirm &amp; Sign Off Induction</button>
+    </div>
+  </div>
+
+  <div class="sign-confirmed" id="sign-confirmed">
+    <div class="sc-icon">🎉</div>
+    <div class="sc-title">Induction Complete</div>
+    <div class="sc-ref" id="sc-ref">Reference: —</div>
+    <div style="font-size:12px;color:var(--green);margin-top:8px;font-weight:600;">Record submitted to site manager</div>
+  </div>
+
+  <div class="section-title">Emergency Information</div>
+  <div class="info-row">
+    <div class="info-item"><span class="info-key">Muster Point</span><span class="info-val">Botley Road gate</span></div>
+    <div class="info-item"><span class="info-key">Site Manager</span><span class="info-val">J. Hartley</span></div>
+    <div class="info-item"><span class="info-key">First Aider</span><span class="info-val">S. Okafor · Office cabin</span></div>
+    <div class="info-item"><span class="info-key">Nearest A&amp;E</span><span class="info-val">Southampton General</span></div>
+  </div>
+
+  <button class="btn-emergency" onclick="fireEmergency()">
+    <div class="em-icon-box">🔥</div>
+    <div class="em-text">
+      <h4>Fire Emergency</h4>
+      <p>Evacuate · Call 999 · Muster: Botley Road gate</p>
+    </div>
+    <div class="em-arrow">›</div>
+  </button>
+  <button class="btn-warning" onclick="firstAidEmergency()">
+    <div class="em-icon-box">🚑</div>
+    <div class="em-text">
+      <h4>First Aid Emergency</h4>
+      <p>Call 999 · Alert first aider · Accident book</p>
+    </div>
+    <div class="em-arrow">›</div>
+  </button>
+  <button class="btn-sos" onclick="callSOS()">
+    <div class="em-icon-box">📞</div>
+    <div class="em-text">
+      <h4>Call Storage on Site</h4>
+      <p>023 8033 2266 · Office 07:30–18:00 Mon–Fri</p>
+    </div>
+    <div class="em-arrow">›</div>
+  </button>
+
+  <div class="pb-safe"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: REPORT  (ConnectLoop | Report)
+════════════════════════════════════════ -->
+<section class="screen" id="screen-report">
+
+  <div class="report-confirm" id="report-confirm">
+    <div class="confirm-hero">
+      <div class="confirm-icon">✅</div>
+      <div class="confirm-title">Report Submitted</div>
+      <div class="confirm-ref" id="confirm-ref-display">Reference: —</div>
+    </div>
+    <div class="confirm-details">
+      <div class="info-item"><span class="info-key">Category</span><span class="info-val" id="confirm-cat">—</span></div>
+      <div class="info-item"><span class="info-key">Severity</span><span class="info-val" id="confirm-sev">—</span></div>
+      <div class="info-item"><span class="info-key">Reported by</span><span class="info-val" id="confirm-name">—</span></div>
+      <div class="info-item"><span class="info-key">Submitted</span><span class="info-val" id="confirm-time">—</span></div>
+      <div class="info-item"><span class="info-key">Asset</span><span class="info-val">A-021 · SOS-2026-8821</span></div>
+    </div>
+    <div style="padding:0 var(--cx) 14px;">
+      <button class="btn-secondary" onclick="resetReport()">Submit another report</button>
+    </div>
+    <div class="pb-safe"></div>
+  </div>
+
+  <div id="report-form-view">
+
+    <div class="mod-chip-row">
+      <div class="mod-chip">ConnectLoop <b>| Report</b></div>
+    </div>
+
+    <div class="report-context">
+      <div class="rc-icon">📍</div>
+      <div>
+        <div class="rc-title">Unit A-021 · SOS-2026-8821</div>
+        <div class="rc-sub">20ft Office Cabin · Imperial House, Hedge End</div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      <span class="ns-ico">ℹ️</span>
+      <div class="ns-txt">This report is automatically tagged with the <b>asset ID, hire reference and confirmed location</b> — you don't need to explain where you are.</div>
+    </div>
+
+    <div class="report-form">
+      <div>
+        <div class="form-label">Report Category</div>
+        <select class="form-select" id="report-category">
+          <option value="">Select category…</option>
+          <option value="Damage / Condition">Damage / Condition</option>
+          <option value="Fault / Breakdown">Fault / Breakdown</option>
+          <option value="Safety Hazard">Safety Hazard</option>
+          <option value="Fire Safety">Fire Safety</option>
+          <option value="Maintenance Request">Maintenance Request</option>
+          <option value="Theft / Tampering">Theft / Tampering</option>
+          <option value="Unit Moved / Relocated">Unit Moved / Relocated</option>
+          <option value="CDM / Welfare Issue">CDM / Welfare Issue</option>
+          <option value="RIDDOR Incident">RIDDOR Incident (Reportable)</option>
+          <option value="Near Miss">Near Miss</option>
+          <option value="Service Feedback">Service Feedback</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <div class="form-label">Severity</div>
+        <div class="severity-row">
+          <button class="severity-btn" onclick="setSeverity(this,'Low')">🟢 Low</button>
+          <button class="severity-btn medium" onclick="setSeverity(this,'Medium')">🟡 Medium</button>
+          <button class="severity-btn high" onclick="setSeverity(this,'High')">🔴 High</button>
+        </div>
+      </div>
+      <div>
+        <div class="form-label">Description</div>
+        <textarea class="form-textarea" id="report-desc" placeholder="Describe the issue, fault, hazard or incident clearly…"></textarea>
+      </div>
+      <div>
+        <div class="form-label">Location on Unit / Site</div>
+        <input class="form-input" type="text" id="report-location" placeholder="e.g. Door hinge, south side, entry step…">
+      </div>
+      <div>
+        <div class="form-label">Your Full Name</div>
+        <input class="form-input" type="text" id="reporter-name" placeholder="Full name…">
+      </div>
+      <div>
+        <div class="form-label">Contact Number (optional)</div>
+        <input class="form-input" type="tel" id="reporter-phone" placeholder="So we can call you back…">
+      </div>
+      <button class="btn-primary" onclick="submitReport()">📤 Submit Report to SOS</button>
+    </div>
+
+    <div class="riddor-notice">
+      <div class="rn-label">⚠️ RIDDOR Reportable Incident?</div>
+      <div class="rn-text">Serious injuries, dangerous occurrences or fatalities must be reported to HSE: <strong>0345 300 9923</strong> (Mon–Fri 08:30–17:00).</div>
+    </div>
+
+    <div class="section-title">Emergency Contacts</div>
+    <button class="btn-emergency" onclick="fireEmergency()">
+      <div class="em-icon-box">🔥</div>
+      <div class="em-text"><h4>Fire Emergency — Call 999</h4><p>Evacuate now · Muster: Botley Road gate</p></div>
+      <div class="em-arrow">›</div>
+    </button>
+    <button class="btn-sos" onclick="callSOS()">
+      <div class="em-icon-box">📞</div>
+      <div class="em-text"><h4>SOS Depot — 023 8033 2266</h4><p>Unit fault, maintenance or emergency hire</p></div>
+      <div class="em-arrow">›</div>
+    </button>
+
+    <div class="pb-safe"></div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: ACCESS  (ConnectLoop | Access)
+════════════════════════════════════════ -->
+<section class="screen" id="screen-access">
+
+  <div class="doc-summary">
+    <div class="ds-item"><div class="ds-dot ok"></div><span style="color:#4ADE80;margin-left:4px;">9 Current</span></div>
+    <div class="ds-sep"></div>
+    <div class="ds-item"><div class="ds-dot warn"></div><span style="color:var(--sos-yellow);margin-left:4px;">1 Due</span></div>
+    <div class="ds-sep"></div>
+    <div class="ds-item"><div class="ds-dot exp"></div><span style="color:#F87171;margin-left:4px;">0 Expired</span></div>
+    <div style="margin-left:auto;font-size:11px;color:rgba(255,255,255,0.45);font-weight:600;">10 total</div>
+  </div>
+
+  <div class="mod-chip-row" style="margin-top:12px;">
+    <div class="mod-chip">ConnectLoop <b>| Access</b></div>
+  </div>
+
+  <div class="doc-search-wrap">
+    <span class="doc-search-icon">🔍</span>
+    <input class="doc-search" type="search" placeholder="Search documents…" oninput="searchDocs(this.value)" id="doc-search-input">
+  </div>
+
+  <div class="doc-filter-row">
+    <button class="filter-chip active" onclick="filterDocs(this,'all')">All</button>
+    <button class="filter-chip" onclick="filterDocs(this,'safety')">Safety</button>
+    <button class="filter-chip" onclick="filterDocs(this,'fire')">Fire</button>
+    <button class="filter-chip" onclick="filterDocs(this,'inspect')">Inspections</button>
+    <button class="filter-chip" onclick="filterDocs(this,'legal')">Legal</button>
+    <button class="filter-chip" onclick="filterDocs(this,'service')">Service</button>
+  </div>
+
+  <div class="doc-skeleton" id="doc-skeleton">
+    <div class="skel-row"><div class="skel-icon"></div><div class="skel-lines"><div class="skel-line"></div><div class="skel-line short"></div><div class="skel-line shorter"></div></div></div>
+    <div class="skel-row"><div class="skel-icon"></div><div class="skel-lines"><div class="skel-line"></div><div class="skel-line short"></div><div class="skel-line shorter"></div></div></div>
+    <div class="skel-row"><div class="skel-icon"></div><div class="skel-lines"><div class="skel-line"></div><div class="skel-line short"></div><div class="skel-line shorter"></div></div></div>
+  </div>
+
+  <div class="doc-list" id="doc-list">
+    <div class="doc-card" data-cat="safety" data-name="rams risk assessment method statement delivery installation crane hiab"
+         onclick="openDoc('RAMS — Delivery &amp; Installation','Risk Assessment &amp; Method Statement for HIAB delivery, positioning and installation','Storage on Site Ltd','03 Aug 2026','03 Feb 2027')">
+      <div class="doc-icon safety">⚠️</div>
+      <div class="doc-info">
+        <div class="doc-name">RAMS — Delivery &amp; Installation</div>
+        <div class="doc-meta">LOLER · PUWER · Aug 2026</div>
+      </div>
+      <div class="doc-status valid">Current</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card fire-card" data-cat="fire" data-name="fire safety certificate jcop rei rating"
+         onclick="openDoc('Fire Safety Certificate','Fire rating test certificate — walls, roof and floor REI 30 compliant. JCoP 10.2 approved.','Storage on Site Ltd','14 Jan 2026','14 Jan 2027')">
+      <div class="doc-icon fire">🔥</div>
+      <div class="doc-info">
+        <div class="doc-name">Fire Safety Certificate</div>
+        <div class="doc-meta">JCoP 10.2 · REI 30 · Jan 2026</div>
+      </div>
+      <div class="doc-status valid">Valid</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card fire-card" data-cat="fire" data-name="fire risk assessment extinguisher detector evacuation"
+         onclick="openDoc('Fire Risk Assessment','Unit fire risk assessment — extinguisher placement, detector test, evacuation procedures','Site Manager J. Hartley','03 Aug 2026','03 Feb 2027')">
+      <div class="doc-icon fire">🧯</div>
+      <div class="doc-info">
+        <div class="doc-name">Fire Risk Assessment</div>
+        <div class="doc-meta">FSO 2005 · Updated Aug 2026</div>
+      </div>
+      <div class="doc-status valid">Current</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card" data-cat="inspect" data-name="puwer inspection record work equipment cabin"
+         onclick="openDoc('PUWER Inspection Record','Work equipment inspection — cabin fabric, access, electrical fittings, heating and services','Storage on Site Ltd','03 Aug 2026','03 Feb 2027')">
+      <div class="doc-icon inspect">🔧</div>
+      <div class="doc-info">
+        <div class="doc-name">PUWER Inspection Record</div>
+        <div class="doc-meta">Work equipment · Aug 2026</div>
+      </div>
+      <div class="doc-status valid">Current</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card" data-cat="inspect" data-name="loler lifting examination corner castings crane certificate"
+         onclick="openDoc('LOLER Lifting Examination','Thorough examination of lifting points and corner castings under LOLER 1998','Approved Examiner','14 Jan 2026','14 Jan 2027')">
+      <div class="doc-icon inspect">🏗️</div>
+      <div class="doc-info">
+        <div class="doc-name">LOLER Lifting Examination</div>
+        <div class="doc-meta">Corner castings certified · Jan 2026</div>
+      </div>
+      <div class="doc-status valid">Current</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card" data-cat="inspect" data-name="pat electrical test appliance portable renewal"
+         onclick="openDoc('PAT Electrical Test Record','Portable Appliance Testing — all fixed and portable electrical items. Renewal recommended.','Approved Electrician','12 Nov 2025','12 Nov 2026')">
+      <div class="doc-icon inspect">⚡</div>
+      <div class="doc-info">
+        <div class="doc-name">PAT Electrical Test</div>
+        <div class="doc-meta">Last tested Nov 2025 · Renewal recommended</div>
+      </div>
+      <div class="doc-status review">Renew</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card legal-card" data-cat="legal" data-name="delivery condition report handover hire start"
+         onclick="openDoc('Delivery Condition Report','Pre-hire condition report — photographed and logged on delivery. No defects noted. Customer sign-off complete.','M. Clarke (SOS Driver)','03 Aug 2026','End of hire')">
+      <div class="doc-icon legal">📋</div>
+      <div class="doc-info">
+        <div class="doc-name">Delivery Condition Report</div>
+        <div class="doc-meta">Pre-hire · Driver: M. Clarke · Aug 2026</div>
+      </div>
+      <div class="doc-status valid">Logged</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card legal-card" data-cat="legal" data-name="hire agreement terms conditions contract"
+         onclick="openDoc('Hire Agreement','Hire contract — terms, damage liability, off-hire procedures and payment schedule','Storage on Site Ltd','03 Aug 2026','25 Sep 2026')">
+      <div class="doc-icon legal">📄</div>
+      <div class="doc-info">
+        <div class="doc-name">Hire Agreement</div>
+        <div class="doc-meta">SOS-2026-8821 · Aug–Sep 2026</div>
+      </div>
+      <div class="doc-status valid">Active</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card" data-cat="safety" data-name="operating instructions heating electrical cabin services keys"
+         onclick="openDoc('Operating Instructions','User guide — heating controls, electrical points, window and door operation, key handling, emergency procedures','Storage on Site Ltd','03 Aug 2026','End of hire')">
+      <div class="doc-icon safety">📖</div>
+      <div class="doc-info">
+        <div class="doc-name">Operating Instructions</div>
+        <div class="doc-meta">Heating, electrics, keys &amp; emergency info</div>
+      </div>
+      <div class="doc-status valid">Current</div>
+      <div class="doc-arrow">›</div>
+    </div>
+
+    <div class="doc-card service-card" data-cat="service" data-name="service log maintenance cleaning record visits"
+         onclick="openDoc('Service &amp; Maintenance Log','All scheduled servicing, cleaning and maintenance visits during this hire period','Storage on Site Ltd','03 Aug 2026','Ongoing')">
+      <div class="doc-icon service">🛠️</div>
+      <div class="doc-info">
+        <div class="doc-name">Service &amp; Maintenance Log</div>
+        <div class="doc-meta">Live record · Updated at each visit</div>
+      </div>
+      <div class="doc-status valid">Active</div>
+      <div class="doc-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="note-strip" style="margin-top:14px;">
+    <span class="ns-ico">📂</span>
+    <div class="ns-txt"><b>ConnectLoop | Access</b> puts the right documents in the hands of whoever is standing at the unit — no portal login, no chasing head office for a certificate.</div>
+  </div>
+
+  <div class="pb-safe"></div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SCREEN: EXTEND  (ConnectLoop | Hire)
+════════════════════════════════════════ -->
+<section class="screen" id="screen-extend">
+
+  <!-- Confirmed state -->
+  <div class="book-confirm" id="book-confirm">
+    <div class="book-confirm-hero">
+      <div class="bc-icon">🎉</div>
+      <div class="bc-title" id="bc-title">Enquiry Sent</div>
+      <div class="bc-ref" id="bc-ref">Reference: —</div>
+      <div class="bc-sub">Our team will call you to confirm availability, pricing and your delivery slot.</div>
+    </div>
+    <div class="confirm-details" style="margin:10px var(--cx) 0;">
+      <div class="info-item"><span class="info-key">Request</span><span class="info-val" id="bc-unit">—</span></div>
+      <div class="info-item"><span class="info-key">Detail</span><span class="info-val" id="bc-qty">—</span></div>
+      <div class="info-item"><span class="info-key">Site</span><span class="info-val">Hedge End, SO30 2HE</span></div>
+      <div class="info-item"><span class="info-key">Contact</span><span class="info-val" id="bc-contact">—</span></div>
+      <div class="info-item"><span class="info-key">Existing Hire</span><span class="info-val">SOS-2026-8821</span></div>
+    </div>
+    <div style="padding:14px var(--cx) 0;">
+      <button class="btn-secondary" onclick="resetBooking()">Make another request</button>
+    </div>
+    <div class="pb-safe"></div>
+  </div>
+
+  <div id="book-form-view">
+
+    <div class="book-hero">
+      <div class="book-hero-inner">
+        <div class="bh-eyebrow">ConnectLoop | Hire</div>
+        <div class="bh-title">Extend or Add Units</div>
+        <div class="bh-sub">Keep this unit longer, or add to your site. Your existing hire details are attached automatically.</div>
+      </div>
+    </div>
+
+    <div class="book-contact-strip">
+      <a href="tel:02380332266" style="text-decoration:none;flex:1;">
+        <div class="bcs-btn" style="width:100%;"><span class="bcs-icon">📞</span>Call SOS</div>
+      </a>
+      <a href="mailto:enquiries@storageonsite.co.uk?subject=ConnectLoop%20enquiry%20-%20SOS-2026-8821" style="text-decoration:none;flex:1;">
+        <div class="bcs-btn" style="width:100%;"><span class="bcs-icon">✉️</span>Email Us</div>
+      </a>
+      <a href="https://storageonsite.co.uk/quickquote/" target="_blank" rel="noopener" style="text-decoration:none;flex:1;">
+        <div class="bcs-btn primary" style="width:100%;"><span class="bcs-icon">💬</span>Quick Quote</div>
+      </a>
+    </div>
+
+    <!-- EXTEND THIS HIRE -->
+    <div class="section-title">Extend This Hire</div>
+    <div class="ext-card">
+      <div class="ext-head">
+        <div class="oh-title">Unit A-021 · 20ft Office Cabin</div>
+        <div class="ext-current">Current off-hire date <b>25 Sep 2026</b>. Choose how much longer you need it.</div>
+      </div>
+      <div class="ext-chips">
+        <div class="ext-chip" onclick="setExtend(this,2)">+2 weeks</div>
+        <div class="ext-chip" onclick="setExtend(this,4)">+4 weeks</div>
+        <div class="ext-chip" onclick="setExtend(this,8)">+8 weeks</div>
+        <div class="ext-chip" onclick="setExtend(this,12)">+12 weeks</div>
+        <div class="ext-chip" onclick="setExtend(this,26)">+6 months</div>
+      </div>
+      <div class="ext-newdate" id="ext-newdate">New off-hire date would be <b id="ext-date-val">—</b>. We'll confirm rates and availability before anything changes.</div>
+      <div class="ext-submit">
+        <button class="btn-primary" onclick="submitExtension()">📆 Request Extension</button>
+      </div>
+    </div>
+
+    <!-- ADD MORE UNITS -->
+    <div class="section-title">Add More Units</div>
+    <div class="cat-grid">
+      <a class="cat-tile" href="https://storageonsite.co.uk/containers/" target="_blank" rel="noopener">
+        <span class="cat-ico">📦</span>
+        <span class="cat-name">Shipping Containers</span>
+        <span class="cat-sub">8ft to 40ft, hire or buy</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/specialist-containers/" target="_blank" rel="noopener">
+        <span class="cat-ico">🔩</span>
+        <span class="cat-name">Specialist Containers</span>
+        <span class="cat-sub">High cube, side opening, COSHH</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/site-cabins/" target="_blank" rel="noopener">
+        <span class="cat-ico">🏢</span>
+        <span class="cat-name">Site Cabins</span>
+        <span class="cat-sub">Offices, canteens, drying rooms</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/welfare-units/" target="_blank" rel="noopener">
+        <span class="cat-ico">🚻</span>
+        <span class="cat-name">Welfare Units</span>
+        <span class="cat-sub">CDM-compliant welfare</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/portable-site-toilets/" target="_blank" rel="noopener">
+        <span class="cat-ico">🚽</span>
+        <span class="cat-name">Toilet Cabins</span>
+        <span class="cat-sub">Short or long-term hire</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/shipping-container-conversions/" target="_blank" rel="noopener">
+        <span class="cat-ico">🛠️</span>
+        <span class="cat-name">Conversions</span>
+        <span class="cat-sub">Custom-built container projects</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/hire-container-cabin-accessories/" target="_blank" rel="noopener">
+        <span class="cat-ico">🔧</span>
+        <span class="cat-name">Accessories</span>
+        <span class="cat-sub">Shelving, steps, lighting, locks</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+      <a class="cat-tile" href="https://storageonsite.co.uk/hire-container-cabin-accessories/temporary-fencing-barrier-hire/" target="_blank" rel="noopener">
+        <span class="cat-ico">🚧</span>
+        <span class="cat-name">Fencing &amp; Barriers</span>
+        <span class="cat-sub">Temporary fencing, crowd control</span>
+        <span class="cat-out">View range ↗</span>
+      </a>
+    </div>
+    <div class="cat-note">Full specifications, sizes and pricing open on storageonsite.co.uk</div>
+
+    <!-- QUICK ENQUIRY -->
+    <div class="section-title">Or Send a Quick Enquiry</div>
+    <div class="book-form show" style="margin-bottom:14px;">
+      <div>
+        <div class="form-label">What do you need?</div>
+        <select class="form-select" id="book-cat">
+          <option value="">Select a category…</option>
+          <option value="Shipping Container">Shipping Container</option>
+          <option value="Specialist Container">Specialist Container</option>
+          <option value="Site Cabin">Site Cabin</option>
+          <option value="Welfare Unit">Welfare Unit</option>
+          <option value="Toilet Cabin">Toilet Cabin</option>
+          <option value="Conversion">Conversion</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Fencing &amp; Barriers">Fencing &amp; Barriers</option>
+          <option value="Not sure — please advise">Not sure — please advise</option>
+        </select>
+      </div>
+
+      <div class="qty-row">
+        <span class="qty-label">Quantity</span>
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-val" id="qty-val">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+
+      <div>
+        <div class="form-label">Hire or Purchase</div>
+        <select class="form-select" id="book-hire-type">
+          <option value="">Select…</option>
+          <option value="Hire">Hire</option>
+          <option value="Purchase">Purchase</option>
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="date-row">
+        <div>
+          <div class="form-label">Needed From</div>
+          <input class="form-input" type="date" id="book-start-date">
+        </div>
+        <div>
+          <div class="form-label">Until (approx.)</div>
+          <input class="form-input" type="date" id="book-end-date">
+        </div>
+      </div>
+
+      <div>
+        <div class="form-label">Delivery Postcode</div>
+        <input class="form-input" type="text" id="book-postcode" value="SO30 2HE" placeholder="Site postcode…">
+      </div>
+
+      <div>
+        <div class="form-label">Anything Else We Should Know?</div>
+        <textarea class="form-textarea" id="book-notes" placeholder="Access restrictions, ground conditions, spec requirements…"></textarea>
+      </div>
+
+      <div>
+        <div class="form-label">Your Details</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input class="form-input" type="text"  id="book-name"  placeholder="Full name…">
+          <input class="form-input" type="tel"   id="book-phone" placeholder="Phone number…">
+          <input class="form-input" type="email" id="book-email" placeholder="Email address…">
+        </div>
+      </div>
+
+      <div class="note-strip" style="margin:0;">
+        <span class="ns-ico">ℹ️</span>
+        <div class="ns-txt">Your current hire details (ref <b>SOS-2026-8821</b>, Imperial House, Hedge End) are attached automatically so SOS can match your delivery arrangements.</div>
+      </div>
+
+      <button class="btn-primary" onclick="submitBooking()">📤 Send Enquiry to SOS</button>
+    </div>
+
+    <!-- TRUST -->
+    <div class="section-title">Why Hire with SOS?</div>
+
+    <div class="rating-strip">
+      <div class="rating-score">4.9</div>
+      <div class="rating-body">
+        <div class="rating-stars">★★★★★</div>
+        <div class="rating-meta">Rated 4.9 from 354+ Google reviews at the Southampton depot</div>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-badge">
+        <div class="tb-icon">👨‍👩‍👧</div>
+        <div>
+          <div class="tb-text">Family-Run</div>
+          <div class="tb-sub">Customer-first approach</div>
+        </div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">🚛</div>
+        <div>
+          <div class="tb-text">Own Fleet</div>
+          <div class="tb-sub">Point-to-point delivery</div>
+        </div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">💰</div>
+        <div>
+          <div class="tb-text">No Hidden Extras</div>
+          <div class="tb-sub">Quoted price is the price</div>
+        </div>
+      </div>
+      <div class="trust-badge">
+        <div class="tb-icon">🏅</div>
+        <div>
+          <div class="tb-text">55+ Years</div>
+          <div class="tb-sub">Of industry experience</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pb-safe"></div>
+  </div>
+</section>
+
+
+<!-- DOCUMENT MODAL -->
+<div class="modal-overlay" id="doc-modal" onclick="closeModalOutside(event)">
+  <div class="modal-sheet">
+    <div class="modal-topbar">
+      <div class="modal-handle"></div>
+      <div id="modal-loading-top" style="display:none;text-align:center;padding:8px 0;">
+        <div class="spinner" style="margin:0 auto 8px;"></div>
+        <p style="font-size:12px;color:rgba(255,255,255,0.55);font-weight:600;">Loading document…</p>
+      </div>
+      <div id="modal-head">
+        <div class="modal-title" id="modal-title">—</div>
+        <div class="modal-sub" id="modal-sub">—</div>
+      </div>
+    </div>
+    <div class="modal-body" id="modal-content" style="display:none;">
+      <div class="modal-meta-grid">
+        <div class="modal-meta-item"><div class="mm-label">Issued By</div><div class="mm-val" id="modal-issuer">—</div></div>
+        <div class="modal-meta-item"><div class="mm-label">Issue Date</div><div class="mm-val" id="modal-issued">—</div></div>
+        <div class="modal-meta-item"><div class="mm-label">Valid Until</div><div class="mm-val" id="modal-expiry">—</div></div>
+        <div class="modal-meta-item"><div class="mm-label">Asset Ref</div><div class="mm-val">A-021</div></div>
+      </div>
+      <button class="btn-primary" onclick="showToast('Opening document… (demo mode)');document.getElementById('doc-modal').classList.remove('open');">
+        📄 Open Document
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+  <div class="af-mark">Connect<span>Loop</span></div>
+  <div class="af-tag">Connecting people to what they need, where they need it.</div>
+  <div class="af-rule"></div>
+  <div class="af-note">
+    ConnectLoop by Superspree for Storage on Site.<br>
+    Demonstration build — unit, hire and beacon data shown here is simulated.<br>
+    <a href="https://storageonsite.co.uk" target="_blank" rel="noopener">storageonsite.co.uk</a> · 023 8033 2266
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+
+<script>
+  /* ════════════════════════════════════
+     S.O.S. CONNECTLOOP — v4
+     Connecting people to what they need,
+     where they need it.
+  ════════════════════════════════════ */
+
+  // ── CONFIG ──
+  const HIRE_START   = new Date('2026-08-03T00:00:00');
+  const HIRE_END     = new Date('2026-09-25T00:00:00');
+  const PING_HOURS   = [6, 18];      // AM / PM beacon reports
+  const PING_MINUTE  = 15;
+  const BATTERY_PCT  = 87;
+
+  // ── TIME HELPERS ──
+  const now = new Date();
+  function fmt(d)      { return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); }
+  function fmtDate(d)  { return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }); }
+  function fmtShort(d) { return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }); }
+
+  document.getElementById('scan-time').textContent        = fmt(now);
+  document.getElementById('last-updated-ts').textContent  = 'Updated ' + fmt(now);
+  document.getElementById('last-sync-time').textContent   = fmt(now);
+
+  // ── STICKY NAV OFFSET (header height is dynamic) ──
+  function setHeaderOffset() {
+    const h = document.getElementById('app-header');
+    if (h) document.documentElement.style.setProperty('--hdr-h', h.offsetHeight + 'px');
+  }
+  setHeaderOffset();
+  window.addEventListener('resize', setHeaderOffset);
+  window.addEventListener('load', setHeaderOffset);
+
+  // ════════════════════════════════════
+  // LIVE BEACON
+  // ════════════════════════════════════
+
+  function pingAt(base, hour) {
+    const d = new Date(base);
+    d.setHours(hour, PING_MINUTE, 0, 0);
+    return d;
+  }
+
+  // Every scheduled ping slot in a window around today
+  function pingSlots() {
+    const slots = [];
+    for (let dayOffset = -6; dayOffset <= 2; dayOffset++) {
+      const day = new Date(now);
+      day.setDate(day.getDate() + dayOffset);
+      PING_HOURS.forEach(h => slots.push(pingAt(day, h)));
+    }
+    return slots.sort((a, b) => a - b);
+  }
+
+  const SLOTS     = pingSlots();
+  const pastPings = SLOTS.filter(d => d <= now);
+  const lastPing  = pastPings[pastPings.length - 1];
+  const nextPing  = SLOTS.find(d => d > now);
+
+  function slotLabel(d) { return d.getHours() < 12 ? 'AM' : 'PM'; }
+
+  function dayLabel(d) {
+    const a = new Date(d); a.setHours(0, 0, 0, 0);
+    const b = new Date(now); b.setHours(0, 0, 0, 0);
+    const diff = Math.round((b - a) / 86400000);
+    if (diff === 0) return 'Today';
+    if (diff === 1) return 'Yesterday';
+    if (diff === -1) return 'Tomorrow';
+    return fmtShort(d);
+  }
+
+  function renderBeacon() {
+    document.getElementById('beacon-last').innerHTML =
+      fmt(lastPing) + ' <small>' + slotLabel(lastPing) + ' · ' + dayLabel(lastPing) + '</small>';
+
+    const secs = Math.max(0, Math.floor((nextPing - new Date()) / 1000));
+    const hrs  = Math.floor(secs / 3600);
+    const mins = Math.floor((secs % 3600) / 60);
+    const sec  = secs % 60;
+    const countdown = hrs > 0 ? (hrs + 'h ' + mins + 'm') : (mins + 'm ' + sec + 's');
+    document.getElementById('beacon-next').innerHTML =
+      countdown + ' <small>at ' + fmt(nextPing) + '</small>';
+  }
+  renderBeacon();
+  setInterval(renderBeacon, 1000);
+
+  // Battery
+  document.getElementById('batt-pct').textContent = BATTERY_PCT + '%';
+  setTimeout(() => {
+    const f = document.getElementById('batt-fill');
+    f.style.width = BATTERY_PCT + '%';
+    if (BATTERY_PCT < 20)      f.style.background = '#F87171';
+    else if (BATTERY_PCT < 40) f.style.background = '#FBBF24';
+  }, 400);
+
+  // Ping history
+  (function buildPingLog() {
+    const log  = document.getElementById('ping-log');
+    const last = pastPings.slice(-8).reverse();
+    log.innerHTML = last.map((d, i) =>
+      '<div class="ping-row">' +
+        '<div class="ping-dot"></div>' +
+        '<div class="ping-when">' + dayLabel(d) + ' · ' + fmt(d) + ' ' + slotLabel(d) + '</div>' +
+        '<div class="ping-tag">' + (i === 0 ? 'Latest' : 'Confirmed') + '</div>' +
+      '</div>'
+    ).join('') +
+    '<div style="font-size:9.5px;color:rgba(255,255,255,0.32);line-height:1.5;padding-top:9px;">' +
+      'All reports show the unit at its agreed site position. Any movement outside the geofence raises an alert at SOS Fleet Control.' +
+    '</div>';
+  })();
+
+  function togglePingLog() {
+    const log = document.getElementById('ping-log');
+    const btn = document.getElementById('ping-log-btn');
+    const open = log.classList.toggle('open');
+    btn.textContent = open ? 'Hide' : 'History';
+  }
+
+  // ════════════════════════════════════
+  // HIRE COUNTDOWN
+  // ════════════════════════════════════
+  const totalDays = Math.round((HIRE_END - HIRE_START) / 86400000);
+  const elapsed   = Math.max(0, Math.round((now - HIRE_START) / 86400000));
+  const remaining = Math.max(0, totalDays - elapsed);
+  const pct       = Math.max(0, Math.min(100, Math.round((elapsed / totalDays) * 100)));
+
+  document.getElementById('hc-days-display').innerHTML = remaining + ' <span>days left</span>';
+  document.getElementById('days-on-hire').textContent  = elapsed;
+
+  const fill = document.getElementById('hire-progress');
+  if (pct > 75) fill.classList.add('warn-bar');
+  setTimeout(() => { fill.style.width = pct + '%'; }, 350);
+
+  // ── ONLINE STATUS ──
+  function updateOnlineStatus() {
+    const banner = document.getElementById('offline-banner');
+    const dot    = document.getElementById('conn-dot-inner');
+    const label  = document.getElementById('conn-label');
+    if (navigator.onLine) {
+      banner.classList.remove('show');
+      dot.style.background = '#4ADE80';
+      label.textContent = 'Live';
+      label.style.color = '#86EFAC';
+    } else {
+      banner.classList.add('show');
+      dot.style.background = '#FBBF24';
+      label.textContent = 'Offline';
+      label.style.color = '#FBBF24';
+    }
+  }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
+
+  // ════════════════════════════════════
+  // TAB SWITCHING
+  // ════════════════════════════════════
+  function showTab(tab, btn, moduleLabel) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('screen-' + tab).classList.add('active');
+    if (btn) btn.classList.add('active');
+    if (moduleLabel) document.getElementById('util-module').textContent = moduleLabel;
+    window.scrollTo(0, 0);
+    if (tab === 'access') {
+      const sk = document.getElementById('doc-skeleton');
+      const li = document.getElementById('doc-list');
+      sk.classList.add('show'); li.style.display = 'none';
+      setTimeout(() => { sk.classList.remove('show'); li.style.display = ''; }, 550);
+    }
+  }
+
+  // ── DOCS SEARCH & FILTER ──
+  function searchDocs(q) {
+    q = q.toLowerCase().trim();
+    document.querySelectorAll('.doc-card').forEach(c => {
+      c.classList.toggle('hidden', q.length > 0 && !(c.dataset.name || '').includes(q));
+    });
+  }
+  function filterDocs(btn, cat) {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    const q = (document.getElementById('doc-search-input').value || '').toLowerCase().trim();
+    document.querySelectorAll('.doc-card').forEach(c => {
+      const mc = cat === 'all' || c.dataset.cat === cat;
+      const ms = q.length === 0 || (c.dataset.name || '').includes(q);
+      c.classList.toggle('hidden', !(mc && ms));
+    });
+  }
+
+  // ── DOCUMENT MODAL ──
+  function openDoc(title, sub, issuer, issued, expiry) {
+    document.getElementById('modal-loading-top').style.display = 'block';
+    document.getElementById('modal-head').style.display = 'none';
+    document.getElementById('modal-content').style.display = 'none';
+    document.getElementById('doc-modal').classList.add('open');
+    setTimeout(() => {
+      document.getElementById('modal-title').textContent  = title;
+      document.getElementById('modal-sub').textContent    = sub;
+      document.getElementById('modal-issuer').textContent = issuer;
+      document.getElementById('modal-issued').textContent = issued;
+      document.getElementById('modal-expiry').textContent = expiry;
+      document.getElementById('modal-loading-top').style.display = 'none';
+      document.getElementById('modal-head').style.display = 'block';
+      document.getElementById('modal-content').style.display = 'block';
+    }, 650);
+  }
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('doc-modal'))
+      document.getElementById('doc-modal').classList.remove('open');
+  }
+
+  // ── ACTIONS PANEL ──
+  function toggleActions() {
+    document.getElementById('actions-body').classList.toggle('open');
+    document.getElementById('actions-chevron').classList.toggle('open');
+  }
+  let openActionCount = 1;
+  function acknowledgeAction(btn) {
+    const item  = btn.closest('.action-item');
+    const badge = item.querySelector('.action-badge');
+    badge.textContent = 'Actioned';
+    badge.classList.add('resolved');
+    btn.remove();
+    openActionCount = Math.max(0, openActionCount - 1);
+    document.getElementById('actions-count-badge').textContent = openActionCount;
+    document.getElementById('open-action-stat').textContent = openActionCount;
+    if (openActionCount === 0) {
+      document.getElementById('actions-header-title').textContent = 'All Actions Complete';
+      document.getElementById('report-badge').style.display = 'none';
+    }
+    showToast('Action marked as actioned');
+  }
+
+  // ── LOCATION ACTIONS ──
+  const SITE_ADDRESS = 'Imperial House, 24 Botley Road, Hedge End, Southampton SO30 2HE';
+  function shareLocation() {
+    const text =
+      'SOS ConnectLoop — Unit A-021 (20ft Office Cabin)\n' +
+      'Hire ref: SOS-2026-8821\n' +
+      SITE_ADDRESS + '\n' +
+      'Position: Front car park, east side, adjacent to main entrance.\n' +
+      'Access: Lorry turning restricted — forward entry/exit via Botley Road only. Banksman required. 4.2m overhead clearance.';
+    if (navigator.share) {
+      navigator.share({ title: 'Unit A-021 — Site Location', text: text })
+        .catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text)
+        .then(() => showToast('Location and access notes copied'))
+        .catch(() => showToast('Copy unavailable on this device'));
+    } else {
+      showToast('Sharing not supported on this device');
+    }
+  }
+
+  function requestOffHire() {
+    if (confirm('REQUEST OFF-HIRE\n\nUnit A-021 · SOS-2026-8821\nBooked off-hire: 25 Sep 2026\n\nSOS require at least 5 working days notice. Hire is charged until the unit is collected.\n\nSend the request to the Southampton depot?')) {
+      const ref = 'OH-' + Date.now().toString(36).toUpperCase().slice(-6);
+      showToast('Off-hire requested · ' + ref);
+    }
+  }
+
+  // ── SEVERITY ──
+  let selectedSeverity = '';
+  function setSeverity(el, level) {
+    document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    selectedSeverity = level;
+  }
+
+  // ── REPORT SUBMISSION ──
+  function submitReport() {
+    const cat  = document.getElementById('report-category').value;
+    const desc = document.getElementById('report-desc').value.trim();
+    const name = document.getElementById('reporter-name').value.trim();
+    if (!cat)              { showToast('Please select a category'); return; }
+    if (!selectedSeverity) { showToast('Please select a severity level'); return; }
+    if (!desc)             { showToast('Please describe the issue'); return; }
+    if (!name)             { showToast('Please enter your name'); return; }
+    const ref = 'RPT-' + Date.now().toString(36).toUpperCase().slice(-6);
+    document.getElementById('confirm-ref-display').textContent = 'Reference: ' + ref;
+    document.getElementById('confirm-cat').textContent  = cat;
+    document.getElementById('confirm-sev').textContent  = selectedSeverity;
+    document.getElementById('confirm-name').textContent = name;
+    document.getElementById('confirm-time').textContent = fmt(new Date()) + ' · ' + fmtDate(new Date());
+    document.getElementById('report-form-view').style.display = 'none';
+    document.getElementById('report-confirm').classList.add('show');
+    window.scrollTo(0, 0);
+  }
+  function resetReport() {
+    document.getElementById('report-category').value = '';
+    document.getElementById('report-desc').value     = '';
+    document.getElementById('reporter-name').value   = '';
+    document.getElementById('report-location').value = '';
+    const ph = document.getElementById('reporter-phone');
+    if (ph) ph.value = '';
+    document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+    selectedSeverity = '';
+    document.getElementById('report-form-view').style.display = 'block';
+    document.getElementById('report-confirm').classList.remove('show');
+  }
+
+  // ── INDUCTION ──
+  const TOTAL_IND = 8;
+  let inductionChecked = 0;
+  function toggleInduction(item) {
+    const box   = item.querySelector('.ind-check');
+    const label = item.querySelector('.ind-label');
+    const was   = box.classList.contains('checked');
+    box.classList.toggle('checked', !was);
+    label.classList.toggle('checked', !was);
+    inductionChecked = document.querySelectorAll('.ind-check.checked').length;
+    updateInductionProgress();
+  }
+  function updateInductionProgress() {
+    const p = Math.round((inductionChecked / TOTAL_IND) * 100);
+    document.getElementById('ind-prog-fill').style.width = p + '%';
+    document.getElementById('ind-prog-label').textContent = inductionChecked + ' of ' + TOTAL_IND + ' items acknowledged';
+    document.getElementById('ind-count-display').innerHTML = inductionChecked + '<small>of ' + TOTAL_IND + '</small>';
+  }
+  document.querySelectorAll('.ind-check').forEach(b => b.classList.remove('checked'));
+  document.querySelectorAll('.ind-label').forEach(l => l.classList.remove('checked'));
+  updateInductionProgress();
+
+  function submitInduction() {
+    if (inductionChecked < TOTAL_IND) { showToast('Please acknowledge all ' + TOTAL_IND + ' induction items first'); return; }
+    const name    = document.getElementById('sign-name').value.trim();
+    const company = document.getElementById('sign-company').value.trim();
+    if (!name)    { showToast('Please enter your full name'); return; }
+    if (!company) { showToast('Please enter your company name'); return; }
+    const ref = 'IND-' + Date.now().toString(36).toUpperCase().slice(-7);
+    document.getElementById('sc-ref').textContent = 'Reference: ' + ref + ' · ' + fmtDate(new Date());
+    document.getElementById('sign-off-card').style.display = 'none';
+    document.getElementById('sign-confirmed').classList.add('show');
+    showToast('Induction signed off for ' + name);
+  }
+
+  // ── EMERGENCY ──
+  function fireEmergency() {
+    if (confirm('FIRE EMERGENCY\n\nImmediate actions:\n1. Evacuate immediately\n2. Call 999\n3. Muster point: Botley Road gate\n4. Do not re-enter until cleared\n\nConfirm?')) {
+      showToast('Fire protocol activated — evacuate and call 999');
+    }
+  }
+  function firstAidEmergency() {
+    if (confirm('FIRST AID EMERGENCY\n\n1. Call 999 if serious\n2. Alert site first aider (S. Okafor)\n3. Do not move casualty unless in danger\n4. Complete accident book entry\n\nProceed?')) {
+      showToast('First aid protocol — call 999 now');
+    }
+  }
+  function callSOS() {
+    if (confirm('STORAGE ON SITE\n\n023 8033 2266\nOffice: Mon-Fri 07:30-18:00\nDepot booking in/out: Mon-Fri 07:30-16:45\n\nUnit: A-021\nRef: SOS-2026-8821\n\nProceed to call?')) {
+      showToast('Connecting to SOS…');
+      window.location.href = 'tel:02380332266';
+    }
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  // ════════════════════════════════════
+  // EXTEND HIRE
+  // ════════════════════════════════════
+  let extendWeeks = 0;
+  function setExtend(chip, weeks) {
+    document.querySelectorAll('.ext-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    extendWeeks = weeks;
+    const newEnd = new Date(HIRE_END);
+    newEnd.setDate(newEnd.getDate() + weeks * 7);
+    document.getElementById('ext-date-val').textContent = fmtDate(newEnd);
+    document.getElementById('ext-newdate').classList.add('show');
+  }
+
+  function submitExtension() {
+    if (!extendWeeks) { showToast('Choose how long you need the unit for'); return; }
+    const newEnd = new Date(HIRE_END);
+    newEnd.setDate(newEnd.getDate() + extendWeeks * 7);
+    const ref = 'EXT-' + Date.now().toString(36).toUpperCase().slice(-6);
+    document.getElementById('bc-title').textContent   = 'Extension Requested';
+    document.getElementById('bc-ref').textContent     = 'Reference: ' + ref;
+    document.getElementById('bc-unit').textContent    = 'Extend A-021 by ' + extendWeeks + ' weeks';
+    document.getElementById('bc-qty').textContent     = 'New off-hire: ' + fmtDate(newEnd);
+    document.getElementById('bc-contact').textContent = 'SOS will confirm rates';
+    document.getElementById('book-form-view').style.display = 'none';
+    document.getElementById('book-confirm').classList.add('show');
+    window.scrollTo(0, 0);
+  }
+
+  // ════════════════════════════════════
+  // ENQUIRY
+  // ════════════════════════════════════
+  let bookQty = 1;
+
+  (function setDefaultDates() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const fourWeeks = new Date();
+    fourWeeks.setDate(fourWeeks.getDate() + 29);
+    const toISO = d => d.toISOString().split('T')[0];
+    const sd = document.getElementById('book-start-date');
+    const ed = document.getElementById('book-end-date');
+    if (sd) sd.value = toISO(tomorrow);
+    if (ed) ed.value = toISO(fourWeeks);
+  })();
+
+  function changeQty(delta) {
+    bookQty = Math.max(1, Math.min(20, bookQty + delta));
+    document.getElementById('qty-val').textContent = bookQty;
+  }
+
+  function submitBooking() {
+    const cat      = document.getElementById('book-cat').value;
+    const hireType = document.getElementById('book-hire-type').value;
+    const postcode = document.getElementById('book-postcode').value.trim();
+    const name     = document.getElementById('book-name').value.trim();
+    const phone    = document.getElementById('book-phone').value.trim();
+
+    if (!cat)      { showToast('Please choose what you need'); return; }
+    if (!hireType) { showToast('Please select hire or purchase'); return; }
+    if (!postcode) { showToast('Please enter a delivery postcode'); return; }
+    if (!name)     { showToast('Please enter your name'); return; }
+    if (!phone)    { showToast('Please enter your phone number'); return; }
+
+    const startDate = document.getElementById('book-start-date').value;
+    const ref = 'BK-' + Date.now().toString(36).toUpperCase().slice(-7);
+    const fmtD = s => { if (!s) return 'TBC'; return fmtDate(new Date(s)); };
+
+    document.getElementById('bc-title').textContent   = 'Enquiry Sent';
+    document.getElementById('bc-ref').textContent     = 'Reference: ' + ref;
+    document.getElementById('bc-unit').textContent    = bookQty + ' × ' + cat + ' (' + hireType + ')';
+    document.getElementById('bc-qty').textContent     = 'Needed from ' + fmtD(startDate);
+    document.getElementById('bc-contact').textContent = name + ' · ' + phone;
+
+    document.getElementById('book-form-view').style.display = 'none';
+    document.getElementById('book-confirm').classList.add('show');
+    window.scrollTo(0, 0);
+  }
+
+  function resetBooking() {
+    extendWeeks = 0; bookQty = 1;
+    document.querySelectorAll('.ext-chip').forEach(c => c.classList.remove('active'));
+    document.getElementById('ext-newdate').classList.remove('show');
+    document.getElementById('qty-val').textContent  = '1';
+    document.getElementById('book-cat').value       = '';
+    document.getElementById('book-hire-type').value = '';
+    document.getElementById('book-notes').value     = '';
+    document.getElementById('book-name').value      = '';
+    document.getElementById('book-phone').value     = '';
+    document.getElementById('book-email').value     = '';
+    document.getElementById('book-form-view').style.display = 'block';
+    document.getElementById('book-confirm').classList.remove('show');
+    window.scrollTo(0, 0);
+  }
+
+  // ── SERVICE WORKER ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () { /* non-fatal */ });
+    });
+  }
+</script>
+</body>
+</html>

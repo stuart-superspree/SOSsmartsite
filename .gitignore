@@ -1,0 +1,33 @@
+# ── OS ──
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editors ──
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── Node (not used, but keeps the repo clean if tooling is added) ──
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# ── Environment / secrets ──
+.env
+.env.*
+*.pem
+*.key
+
+# ── Build & working files ──
+build/
+dist/
+tmp/
+*.zip
+*.log
+
+# ── Source assets not needed at runtime ──
+/working/
+/screenshots/
